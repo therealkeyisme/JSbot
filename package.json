@@ -1,0 +1,24 @@
+{
+  "name": "JSbot",
+  "version": "1.0.0",
+  "description": "A recreation of babybot in javascript",
+  "main": "bot.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/therealkeyisme/JSbot.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/therealkeyisme/JSbot/issues"
+  },
+  "homepage": "https://github.com/therealkeyisme/JSbot#readme",
+  "dependencies": {
+    "discord.js": "^12.5.1",
+    "dotenv": "^8.2.0"
+  }
+}
