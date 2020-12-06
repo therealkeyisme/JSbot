@@ -19,6 +19,7 @@
   "homepage": "https://github.com/therealkeyisme/JSbot#readme",
   "dependencies": {
     "discord.js": "^12.5.1",
-    "dotenv": "^8.2.0"
+    "dotenv": "^8.2.0",
+    "node-pandas": "^1.0.5"
   }
 }
