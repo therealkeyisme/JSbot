@@ -11,9 +11,6 @@ client.on('ready', () => {
     console.log(`${client.user.tag} has logged in.`);
 })
 
-const isValidCommand = (message, cmdName) => message.content.toLowerCase().startsWith(PREFIX + cmdName);
-
-
 
 client.on('message', async function(message) {
     if(message.author.bot) return;
@@ -22,7 +19,7 @@ client.on('message', async function(message) {
     let argsToParse = message.content.substring(message.content.indexOf(" ") + 1);
 
     if(client.commands.get(cmdName)) {
-        client.commands.get(cmdName).run(client, message, argsToParse);
+        client.commands.get(cmdName)(client, message, argsToParse);
     }
     else {
         console.log("Command does not exist.")
@@ -42,7 +39,11 @@ client.on('message', async function(message) {
             if(file.endsWith(".js")) {
                 let cmdName = file.substring(0, file.indexOf(".js"));
                 let cmdModule = require(path.join(__dirname, dir, file));
-                client.commands.set(cmdName, cmdModule);
+                let { aliases } = cmdModule;
+                client.commands.set(cmdName, cmdModule.run);
+                if(aliases.length != 0){
+                    aliases.forEach(alias => client.commands.set(alias, cmdModule.run));
+                }
             }
         }
     }
