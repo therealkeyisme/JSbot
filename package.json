@@ -1,5 +1,5 @@
 {
-  "name": "JSbot",
+  "name": "jsbot",
   "version": "1.0.0",
   "description": "A recreation of babybot in javascript",
   "main": "bot.js",
@@ -19,7 +19,6 @@
   "homepage": "https://github.com/therealkeyisme/JSbot#readme",
   "dependencies": {
     "discord.js": "^12.5.1",
-    "dotenv": "^8.2.0",
-    "node-pandas": "^1.0.5"
+    "dotenv": "^8.2.0"
   }
 }
