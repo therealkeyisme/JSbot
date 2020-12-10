@@ -6,14 +6,11 @@ module.exports = {
     run: async(client, message, args) => {
         const GUILDID = message.guild.id;
 
-        //TODO: Add remove function and the clear function
         let command = args.split(" ")[0];
-
-
 
         if (command.toLowerCase() === "add") {
             let items = args.substr(4, args.length).split(', ');
-            jsonReader('src/data/guilddata.json', (err, data) => {
+            jsonReader('src/data/botdata.json', (err, data) => {
                 if (err) {
                     console.log(err);
                 }
@@ -47,7 +44,7 @@ module.exports = {
 
                         data.server[j].shoppinglist = data.server[j].shoppinglist.concat(items);
                     }
-                    fs.writeFile('src/data/guilddata.json', JSON.stringify(data, null, 2), err => {
+                    fs.writeFile('src/data/botdata.json', JSON.stringify(data, null, 2), err => {
                         if (err) {
                             console.log(err);
                         }
@@ -60,7 +57,7 @@ module.exports = {
             console.log(`Added ${items} to shopping list`);
         } else if (command.toLowerCase() === "rem") {
             let items = args.substr(4, args.length).split(', ');
-            jsonReader('src/data/guilddata.json', (err, data) => {
+            jsonReader('src/data/botdata.json', (err, data) => {
                 if (err) {
                     console.log(err);
                 }
@@ -92,7 +89,7 @@ module.exports = {
                         console.log(items)
 
                     }
-                    fs.writeFile('src/data/guilddata.json', JSON.stringify(data, null, 2), err => {
+                    fs.writeFile('src/data/botdata.json', JSON.stringify(data, null, 2), err => {
                         if (err) {
                             console.log(err);
                         }
@@ -103,7 +100,7 @@ module.exports = {
                 }
             });
         } else if (command.toLowerCase() === "show" || command.toLowerCase() === "list") {
-            jsonReader('src/data/guilddata.json', (err, data) => {
+            jsonReader('src/data/botdata.json', (err, data) => {
                 if (err) {
                     console.log(err);
                 }
@@ -129,7 +126,7 @@ module.exports = {
                 }
             });
         } else if (command.toLowerCase() === "clear") {
-            jsonReader('src/data/guilddata.json', (err, data) => {
+            jsonReader('src/data/botdata.json', (err, data) => {
                 if (err) {
                     console.log(err);
                 }
@@ -151,7 +148,7 @@ module.exports = {
                     else {
                         data.server[j].shoppinglist = [];
                     }
-                    fs.writeFile('src/data/guilddata.json', JSON.stringify(data, null, 2), err => {
+                    fs.writeFile('src/data/botdata.json', JSON.stringify(data, null, 2), err => {
                         if (err) {
                             console.log(err);
                         }
