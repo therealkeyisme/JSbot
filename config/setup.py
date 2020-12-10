@@ -4,6 +4,8 @@ import os
 import os.path
 DATA_LOCATION = "src\\data\\botdata.json"
 
+# TODO: Make sure that the requests work
+
 def datajsonformat(serverID, shoppinglist):
     return {
         "server": [
@@ -11,6 +13,9 @@ def datajsonformat(serverID, shoppinglist):
                 "serverid": serverID,
                 "shoppinglist": shoppinglist
             }
+        ],
+        "requests" : [
+
         ]
     }
 def jsonalreadycreated(serverID, shoppinglist):
