@@ -16,18 +16,17 @@ const DEVID = process.env.BOT_OWNER;
 client.login(process.env.BOT_TOKEN);
 client.commands = new Map();
 
-let stream = createStream(tableConfig);
-let i = 0;
-let fn = setInterval(() => {
-    if (i === commandStatus.length){
-        clearInterval(fn);
-    } else {
-        stream.write(commandStatus[i]);
-        i++;
-    }
-}, 250)
-
 client.on('ready', () => {
+    let stream = createStream(tableConfig);
+    let i = 0;
+    let fn = setInterval(() => {
+        if (i === commandStatus.length){
+            clearInterval(fn);
+        } else {
+            stream.write(commandStatus[i]);
+            i++;
+        }
+    }, 250)
     console.log(`${client.user.tag} has logged in.`);
 })
 
