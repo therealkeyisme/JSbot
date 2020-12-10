@@ -31,5 +31,6 @@ module.exports = {
         })  
         // !
     },
-    aliases: ['report', 'issue']
+    aliases: ['report', 'issue'],
+    description: "Makes a request for a feature or reports a bug"
 }

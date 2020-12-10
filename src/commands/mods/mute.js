@@ -27,5 +27,6 @@ module.exports = {
             }
         }
     },
-    aliases: []
+    aliases: [],
+    description: "Mutes a user"
 }

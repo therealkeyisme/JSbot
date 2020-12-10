@@ -160,5 +160,6 @@ module.exports = {
             });
         };
     },
-    aliases: []
+    aliases: [],
+    description: "Maintains and stores a shopping list"
 }
