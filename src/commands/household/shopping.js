@@ -1,5 +1,5 @@
 const fs = require('fs');
-const { jsonReader } = require('../../utils/shopfn')
+const { jsonReader } = require('../../utils/jsonreader')
 
 // TODO: Clean up this code
 module.exports = {
