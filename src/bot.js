@@ -4,6 +4,7 @@ const client = new discord.Client();
 const fs = require('fs').promises;
 const path = require('path');
 const PREFIX = process.env.PREFIX;
+const DEVID = process.env.BOT_OWNER;
 client.login(process.env.BOT_TOKEN);
 client.commands = new Map();
 
@@ -19,7 +20,7 @@ client.on('message', async function(message) {
     let argsToParse = message.content.substring(message.content.indexOf(" ") + 1);
 
     if(client.commands.get(cmdName)) {
-        client.commands.get(cmdName)(client, message, argsToParse);
+        client.commands.get(cmdName)(client, message, argsToParse, DEVID);
     }
     else {
         console.log("Command does not exist.")
