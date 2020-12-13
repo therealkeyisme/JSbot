@@ -5,17 +5,17 @@ const fs = require('fs').promises;
 const path = require('path');
 const { checkCommandModule, checkProperties } = require("./utils/validate");
 const tableConfig = require('./utils/tableConfig');
-const { createStream, table } = require('table');
+const { createStream } = require('table');
 const c = require('ansi-colors');
-const commandStatus = [
-    [`${c.bold.magenta('Command')}`, `${c.bold.magenta('Status')}`, `${c.bold.magenta('Description')}`]
-];
-
 const PREFIX = process.env.PREFIX;
 const DEVID = process.env.BOT_OWNER;
 client.login(process.env.BOT_TOKEN);
 client.commands = new Map();
 client.queue = new Map();
+
+const commandStatus = [
+    [`${c.bold.magenta('Command')}`, `${c.bold.magenta('Status')}`, `${c.bold.magenta('Description')}`]
+];
 
 client.on('ready', () => {
     let stream = createStream(tableConfig);
@@ -33,8 +33,11 @@ client.on('ready', () => {
 
 client.on('message', async function(message) {
     if(message.author.bot) return;
-    if(message.content.toLowerCase() === "thank you") {
+    if(message.content.toLowerCase() === "thank you" || message.content.toLowerCase() === "thenk you") {
         message.channel.send("You're very welcome ! 🥰")
+    }
+    if(message.content.toLowerCase() === "i love you babybot") {
+        message.channel.send("ily 2 ")
     }
     if(!message.content.startsWith(PREFIX)) return;
     let cmdName = message.content.substring(message.content.indexOf(PREFIX) + 1).split(new RegExp(/\s+/)).shift();
