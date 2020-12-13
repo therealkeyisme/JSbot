@@ -1,23 +1,15 @@
-const fs = require('fs');
-const ytdl = require('ytdl-core')
-
 module.exports = {
-    run: async(client, message, args, DEVID, musicUrls) => {
-        let url = args
-        const streamOptions = {
-            seek: 0,
-            volume: 2
-        }
-        if(ytdl.validateURL(url)){
-            console.log("validated")
-            if(!musicUrls.some(element => {
-                element === url;
-            })) {
-                musicUrls.push(url);
-                message.channel.send("Successfully added to the queue")
-            }
-        }
+    run: async (client, message) => {
+        const serverQueue = message.client.queue.get(message.guild.id);
+        if (!serverQueue) return message.channel.send("theres nothing in the queue")
+        return message.channel.send(`
+__**Song queue:**__
+
+${serverQueue.songs.map(song => `**-** ${song.title}`).join('\n')}
+
+**Now playing:** ${serverQueue.songs[0].title}
+		`);
     },
     aliases: [],
-    description: ""
-}
+    description: "Shows the current queue",
+};

@@ -4,18 +4,16 @@ const client = new discord.Client();
 const fs = require('fs').promises;
 const path = require('path');
 const { checkCommandModule, checkProperties } = require("./utils/validate");
-const tableConfig = require('./utils/tableConfig');
-const { createStream, table } = require('table');
+// const tableConfig = require('./utils/tableConfig');
 const c = require('ansi-colors');
 const commandStatus = [
     [`${c.bold.magenta('Command')}`, `${c.bold.magenta('Status')}`, `${c.bold.magenta('Description')}`]
 ];
-const musicUrls = [];
 const PREFIX = process.env.PREFIX;
 const DEVID = process.env.BOT_OWNER;
 client.login(process.env.BOT_TOKEN);
 client.commands = new Map();
-
+client.queue = new Map();
 client.on('ready', () => {
     // let stream = createStream(tableConfig);
     // let i = 0;
@@ -37,7 +35,7 @@ client.on('message', async function(message) {
     let argsToParse = message.content.substring(message.content.indexOf(" ") + 1);
 
     if(client.commands.get(cmdName)) {
-        client.commands.get(cmdName)(client, message, argsToParse, DEVID, musicUrls);
+        client.commands.get(cmdName)(client, message, argsToParse, DEVID);
     }
     else {
         console.log("Command does not exist.")
@@ -62,7 +60,7 @@ client.on('message', async function(message) {
                         if(checkProperties(cmdModule)) {
                             let { aliases } = cmdModule;
                             client.commands.set(cmdName, cmdModule.run);
-                            if(aliases.length != 0){
+                            if(aliases.length !== 0){
                                 aliases.forEach(alias => client.commands.set(alias, cmdModule.run));
                             }
                             commandStatus.push(
@@ -74,7 +72,7 @@ client.on('message', async function(message) {
                 } 
                 catch (err) {
                     console.log(err)
-                    [`${c.white(`${cmdName}`)}`, `${c.bgRedBright(`Failed`)}`, ``]
+                    // [`${c.white(`${cmdName}`)}`, `${c.bgRedBright(`Failed`)}`, ``]
                 }
                 
             }

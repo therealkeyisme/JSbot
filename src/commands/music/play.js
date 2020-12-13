@@ -1,32 +1,63 @@
 const ytdl = require('ytdl-core');
+const { Util } = require('discord.js')
 
 
 module.exports = {
-    run: async(client, message, args, DEVID, musicUrls) => {
-        let guildData = message.guild;
+    run: async(client, message, args) => {
+        const { channel } = message.member.voice;
+        if(!channel) return message.channel.send("Sorry but you're not in a voice channel :(");
 
-        const connection = await message.member.voice.channel.join()
-            .then(connection => {
-                if(typeof(connection) !== "object") {
+        const serverQueue = message.client.queue.get(message.guild.id)
+        const songInfo = await ytdl.getInfo(args.replace(/<(.+)>/g, '$1'));
+        const song = {
+            id: songInfo.videoDetails.videoId,
+            title: Util.escapeMarkdown(songInfo.videoDetails.title),
+            url: songInfo.videoDetails.video_url
+        };
 
-                    for (let i = 0; i < musicUrls.length; i++) {
-                        let dispatcher = connection.play(ytdl(musicUrls[0], {filter: "audioonly"}))
+        if(serverQueue){
+            serverQueue.songs.push(song);
+            console.log(serverQueue.songs);
+            return message.channel.send(`✅ **${song.title}** has been added to the queue!`)
+        }
 
-                        dispatcher.on('start', () => {
+        const queueConstruct = {
+            textChannel: message.channel,
+            voiceChannel: channel,
+            connection: null,
+            songs: [],
+            volume: 2,
+            playing: true
+        }
+        message.client.queue.set(message.guild.id, queueConstruct);
+        queueConstruct.songs.push(song);
 
-                            message.channel.send(musicUrls[i] + " Has started playing")
-                        })
-                        musicUrls.shift();
-                    }
-                    return;
-                }
-            })
+        const play = async song => {
+            const queue = message.client.queue.get(message.guild.id);
+            if (!song) {
+                queue.voiceChannel.leave();
+                message.client.queue.delete(message.guild.id);
+                return;
+            }
+            const dispatcher = queue.connection.play(ytdl(song.url))
+                .on('finish', () => {
+                    queue.songs.shift();
+                    play(queue.songs[0])
+                })
+                .on('error', error => console.error(error));
+            dispatcher.setVolumeLogarithmic(queue.volume / 5);
+            queue.textChannel.send(`🎶 Start playing: **${song.title}**`)
+        };
 
-
-
-
-
-
+        try {
+            queueConstruct.connection = await channel.join();
+            await play(queueConstruct.songs[0]);
+        } catch(error) {
+            console.error(`I could not join the voice channel: ${error}`);
+            message.client.queue.delete(message.guild.id);
+            await channel.leave();
+            return message.channel.send(`I could not join the voice channel: ${error}`)
+        }
 
     },
     aliases: [],
