@@ -15,6 +15,7 @@ const PREFIX = process.env.PREFIX;
 const DEVID = process.env.BOT_OWNER;
 client.login(process.env.BOT_TOKEN);
 client.commands = new Map();
+client.queue = new Map();
 
 client.on('ready', () => {
     let stream = createStream(tableConfig);
@@ -32,7 +33,7 @@ client.on('ready', () => {
 
 client.on('message', async function(message) {
     if(message.author.bot) return;
-    if(message.content.toLowerCase() == "thank you") {
+    if(message.content.toLowerCase() === "thank you") {
         message.channel.send("You're very welcome ! 🥰")
     }
     if(!message.content.startsWith(PREFIX)) return;
@@ -65,7 +66,7 @@ client.on('message', async function(message) {
                         if(checkProperties(cmdModule)) {
                             let { aliases } = cmdModule;
                             client.commands.set(cmdName, cmdModule.run);
-                            if(aliases.length != 0){
+                            if(aliases.length !== 0){
                                 aliases.forEach(alias => client.commands.set(alias, cmdModule.run));
                             }
                             commandStatus.push(

@@ -2,7 +2,7 @@
   "name": "jsbot",
   "version": "1.0.0",
   "description": "A recreation of babybot in javascript",
-  "main": "bot.js",
+  "main": "src/bot.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -18,9 +18,13 @@
   },
   "homepage": "https://github.com/therealkeyisme/JSbot#readme",
   "dependencies": {
+    "@discordjs/opus": "^0.3.3",
     "ansi-colors": "^4.1.1",
     "discord.js": "^12.5.1",
     "dotenv": "^8.2.0",
-    "table": "^6.0.4"
+    "ffmpeg-static": "^4.2.7",
+    "sodium": "^3.0.2",
+    "table": "^6.0.4",
+    "ytdl-core": "^4.1.4"
   }
 }
