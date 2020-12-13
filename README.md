@@ -1,2 +1,2 @@
 # JSbot
- A recreation of babybot in javascript
+ A recreation of babybot in javascript.
