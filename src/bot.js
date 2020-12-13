@@ -10,23 +10,23 @@ const c = require('ansi-colors');
 const commandStatus = [
     [`${c.bold.magenta('Command')}`, `${c.bold.magenta('Status')}`, `${c.bold.magenta('Description')}`]
 ];
-
+const musicUrls = [];
 const PREFIX = process.env.PREFIX;
 const DEVID = process.env.BOT_OWNER;
 client.login(process.env.BOT_TOKEN);
 client.commands = new Map();
 
 client.on('ready', () => {
-    let stream = createStream(tableConfig);
-    let i = 0;
-    let fn = setInterval(() => {
-        if (i === commandStatus.length){
-            clearInterval(fn);
-        } else {
-            stream.write(commandStatus[i]);
-            i++;
-        }
-    }, 250)
+    // let stream = createStream(tableConfig);
+    // let i = 0;
+    // let fn = setInterval(() => {
+    //     if (i === commandStatus.length){
+    //         clearInterval(fn);
+    //     } else {
+    //         stream.write(commandStatus[i]);
+    //         i++;
+    //     }
+    // }, 250)
     console.log(`${client.user.tag} has logged in.`);
 })
 
@@ -37,7 +37,7 @@ client.on('message', async function(message) {
     let argsToParse = message.content.substring(message.content.indexOf(" ") + 1);
 
     if(client.commands.get(cmdName)) {
-        client.commands.get(cmdName)(client, message, argsToParse, DEVID);
+        client.commands.get(cmdName)(client, message, argsToParse, DEVID, musicUrls);
     }
     else {
         console.log("Command does not exist.")
