@@ -26,12 +26,15 @@ client.on('ready', () => {
             stream.write(commandStatus[i]);
             i++;
         }
-    }, 250)
+    }, 100)
     console.log(`${client.user.tag} has logged in.`);
 })
 
 client.on('message', async function(message) {
     if(message.author.bot) return;
+    if(message.content.toLowerCase() == "thank you") {
+        message.channel.send("You're very welcome ! 🥰")
+    }
     if(!message.content.startsWith(PREFIX)) return;
     let cmdName = message.content.substring(message.content.indexOf(PREFIX) + 1).split(new RegExp(/\s+/)).shift();
     let argsToParse = message.content.substring(message.content.indexOf(" ") + 1);
@@ -40,7 +43,7 @@ client.on('message', async function(message) {
         client.commands.get(cmdName)(client, message, argsToParse, DEVID);
     }
     else {
-        console.log("Command does not exist.")
+        await message.channel.send("I don't understand you :(( \ncan you please speak in 1s and 0s?")
     }
 });
 
@@ -66,15 +69,16 @@ client.on('message', async function(message) {
                                 aliases.forEach(alias => client.commands.set(alias, cmdModule.run));
                             }
                             commandStatus.push(
-                                [`${c.cyan(`${cmdName}`)}`, `${c.bgGreenBright('Success!')}`, `${cmdModule.description}`]
+                                [`${c.green(`${cmdName}`)}`, `${c.green('Success!')}`, `${c.green(`${cmdModule.description}`)}`]
                             );
                         }
                     } 
                     
                 } 
                 catch (err) {
-                    console.log(err)
-                    [`${c.white(`${cmdName}`)}`, `${c.bgRedBright(`Failed`)}`, ``]
+                    commandStatus.push(
+                        [`${c.red(`${cmdName}`)}`, `${c.red(`Failed!`)}`, `${c.red(`${err}`)}`]
+                    );
                 }
                 
             }
