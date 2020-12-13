@@ -21,5 +21,6 @@ module.exports = {
             }
         })
     },
-    aliases: ['roledelete']
+    aliases: ['roledelete'],
+    description: 'Removes a role to a Guild Member'
 }

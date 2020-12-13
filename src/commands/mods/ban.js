@@ -19,5 +19,6 @@ module.exports = {
             }
         }
     },
-    aliases: []
+    aliases: [],
+    description: "Bans a user"
 }

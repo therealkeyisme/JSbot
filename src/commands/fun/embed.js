@@ -26,5 +26,6 @@ module.exports = {
         }
         message.channel.send({ embed });
     },
-    aliases: []
+    aliases: [],
+    description: "Creates an embed"
 }

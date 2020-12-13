@@ -31,5 +31,6 @@ module.exports = {
             }
         });
     },
-    aliases: ['roleadd']
+    aliases: ['roleadd'],
+    description: "adds a role to a Guild Member"
 }
