@@ -2,3 +2,4 @@
 .idea/
 .vscode/
 src/data/botdata.json
+/node_modules/
