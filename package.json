@@ -18,11 +18,11 @@
   },
   "homepage": "https://github.com/therealkeyisme/JSbot#readme",
   "dependencies": {
+    "@discordjs/opus": "^0.3.3",
     "ansi-colors": "^4.1.1",
     "discord.js": "^12.5.1",
     "dotenv": "^8.2.0",
     "ffmpeg-static": "^4.2.7",
-    "node-opus": "^0.3.3",
     "sodium": "^3.0.2",
     "table": "^6.0.4",
     "ytdl-core": "^4.1.4"
