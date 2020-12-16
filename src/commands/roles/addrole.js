@@ -6,30 +6,33 @@ module.exports = {
         let roleNames = args.split(", ");
         let roleSet = new Set(roleNames);
         let { cache } = message.guild.roles;
+        message.delete({ timeout: 5000})
     
         roleSet.forEach(roleName => {
             let role = cache.find(role => role.name.toLowerCase() === roleName.toLowerCase());
             if(role) {
                 if(message.member.roles.cache.has(role.id)) {
-                    message.channel.send("You already have this role");
+                    message.channel.send("You already have this role").then(message => message.delete({timeout:5000})).catch(err => {throw err});
                     return;
                 }
                 if(checkPermissionRole(role)) {
-                    message.channel.send("You cannot add yourself to this role");
+                    message.channel.send("You cannot add yourself to this role").then(message => message.delete({timeout:5000})).catch(err => {throw err});;
                 }
                 else {
                     message.member.roles.add(role.id)
-                        .then(member => message.channel.send("You were added to the role"))
+                        .then(member => message.channel.send("You were added to the role")).then(message => message.delete({timeout:5000})).catch(err => {throw err})
                         .catch(err => {
                             console.log(err)
-                            message.channel.send("Something went wrong")
+                            message.channel.send("Something went wrong").then(message => message.delete({timeout:5000})).catch(err => {throw err});
                         })
                 }
             }
             else {
                 message.channel.send("Role not found");
             }
-        });
+        }
+        
+        );
     },
     aliases: ['roleadd'],
     description: "adds a role to a Guild Member"

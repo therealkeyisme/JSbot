@@ -1,17 +1,17 @@
 module.exports = {
     run: async(client, message, args) => {
         const { channel } = message.member.voice;
-        if (!channel) return message.channel.send('I\'m sorry but you need to be in a voice channel to play music!');
+        if (!channel) return message.channel.send('I\'m sorry but you need to be in a voice channel to play music!').then(message => message.delete({timeout:5000})).catch(err => {throw err});
         const serverQueue = message.client.queue.get(message.guild.id);
-        if (!serverQueue) return message.channel.send('There is nothing playing.');
-        if (!args[0]) return message.channel.send(`The current volume is: **${serverQueue.volume}**`);
+        if (!serverQueue) return message.channel.send('There is nothing playing.').then(message => message.delete({timeout:5000})).catch(err => {throw err});
+        if (!args[0]) return message.channel.send(`The current volume is: **${serverQueue.volume}**`).then(message => message.delete({timeout:5000})).catch(err => {throw err});
         if(args > 1) {
-            return message.channel.send("You cannot set the volume that high. you will die")
+            return message.channel.send("You cannot set the volume that high. you will die").then(message => message.delete({timeout:5000})).catch(err => {throw err})
         }
         else {
             serverQueue.volume = args; // eslint-disable-line
             serverQueue.connection.dispatcher.setVolumeLogarithmic(args);
-            return message.channel.send(`I set the volume to: **${args}**`);
+            return message.channel.send(`I set the volume to: **${args}**`).then(message => message.delete({timeout:5000})).catch(err => {throw err});
         }
     },
     aliases: [],

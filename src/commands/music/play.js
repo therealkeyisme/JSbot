@@ -5,7 +5,7 @@ const { Util } = require('discord.js')
 module.exports = {
     run: async(client, message, args) => {
         const { channel } = message.member.voice;
-        if(!channel) return message.channel.send("Sorry but you're not in a voice channel :(");
+        if(!channel) return message.channel.send("Sorry but you're not in a voice channel :(").then(message => message.delete({timeout:5000})).catch(err => {throw err});
 
         const serverQueue = message.client.queue.get(message.guild.id)
         const songInfo = await ytdl.getInfo(args.replace(/<(.+)>/g, '$1'));
@@ -18,7 +18,7 @@ module.exports = {
         if(serverQueue){
             serverQueue.songs.push(song);
             console.log(serverQueue.songs);
-            return message.channel.send(`✅ **${song.title}** has been added to the queue!`)
+            return message.channel.send(`✅ **${song.title}** has been added to the queue!`.then(message => message.delete({timeout:5000})).catch(err => {throw err}))
         }
 
         const queueConstruct = {
@@ -56,7 +56,7 @@ module.exports = {
             console.error(`I could not join the voice channel: ${error}`);
             message.client.queue.delete(message.guild.id);
             await channel.leave();
-            return message.channel.send(`I could not join the voice channel: ${error}`)
+            return message.channel.send(`I could not join the voice channel: ${error}`.then(message => message.delete({timeout:5000})).catch(err => {throw err}))
         }
 
     },

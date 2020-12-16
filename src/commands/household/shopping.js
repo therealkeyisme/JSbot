@@ -5,7 +5,7 @@ const { jsonReader } = require('../../utils/jsonreader')
 module.exports = {
     run: async(client, message, args) => {
         const GUILDID = message.guild.id;
-
+        message.delete({ timeout:5000})
         let command = args.split(" ")[0];
 
         if (command.toLowerCase() === "add") {
@@ -47,7 +47,7 @@ module.exports = {
                             console.log(err);
                         }
                         else {
-                            message.channel.send("Your items have been added to the shopping list")
+                            message.channel.send("Your items have been added to the shopping list").then(message => message.delete({timeout:10000})).catch(err => {throw err})
                         }
                     })
                 }
@@ -91,7 +91,7 @@ module.exports = {
                             console.log(err);
                         }
                         else {
-                            message.channel.send("Your items have been removed from the shopping list")
+                            message.channel.send("Your items have been removed from the shopping list").then(message => message.delete({timeout:10000})).catch(err => {throw err})
                         }
                     })
                 }
@@ -111,13 +111,13 @@ module.exports = {
                     }
                     if (data.server[j] === undefined || data.server[j].shoppinglist[0] === undefined) {
                         let returnMessage = "I was not able to find your shopping list. I either lost it or you haven't given it to me yet."
-                        message.channel.send(returnMessage);
+                        message.channel.send(returnMessage).then(message => message.delete({timeout:10000})).catch(err => {throw err});
                     }
                     else {
                         
                         returnList = data.server[j].shoppinglist.sort().join('\n')
                         returnMessage = "The following items are on your shopping list: \n ```" + returnList + "```"
-                        message.channel.send(returnMessage);
+                        message.channel.send(returnMessage).then(message => message.delete({timeout:10000})).catch(err => {throw err});
                     }
                 }
             });
@@ -149,7 +149,7 @@ module.exports = {
                             console.log(err);
                         }
                         else {
-                            message.channel.send("Your shopping list has been cleared.")
+                            message.channel.send("Your shopping list has been cleared.".then(message => message.delete({timeout:10000})).catch(err => {throw err}))
                         }
                     })
                 }

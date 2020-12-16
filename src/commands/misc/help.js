@@ -1,6 +1,7 @@
 module.exports = {
     run: async(client, message) => {
         // #TODO: Add the music commands to help
+        message.delete({ timeout: 5000});
         let embedMessage = "-`?roll` rolls a dice\n-`?request` reports a bug\n-`?shopping` maintains and stores a " +
             "shopping list\n-`?help` displays this message\n-`?ban` bans people\n-`?kick` kicks people\n-`?request` " +
             "sends an issue to the bot developer\n-`?addrole` adds a role to a player\n-`?delrole` removes a role from " +
@@ -12,7 +13,8 @@ module.exports = {
             color : '#63d6ff',
             description: embedMessage
         }
-        await message.channel.send( {embed});
+        // message.reply( {embed} )
+        message.channel.send({ embed }).then(message => message.delete({timeout:15000})).catch(err => {throw err});
     },
     aliases: ['?'],
     description: "Lists help on all available commands"
