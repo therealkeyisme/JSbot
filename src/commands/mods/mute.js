@@ -1,6 +1,7 @@
 module.exports = {
     run: async(client, message, args) => {
-        return
+        message.delete({timeout:1000})
+        return message.channel.send("This is broken don't use this command").then(message => message.delete({timeout:3000})).catch(err => {throw err});
         let { cache } = message.guild.roles;
         let mutedRole = cache.find(role => role.name.toLowerCase() === "muted");
         if(!message.member.hasPermission(['KICK_MEMBERS', 'BAN_MEMBERS'])) {
