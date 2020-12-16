@@ -117,7 +117,7 @@ module.exports = {
                         
                         returnList = data.server[j].shoppinglist.sort().join('\n')
                         returnMessage = "The following items are on your shopping list: \n ```" + returnList + "```"
-                        message.channel.send(returnMessage).then(message => message.delete({timeout:10000})).catch(err => {throw err});
+                        message.channel.send(returnMessage);
                     }
                 }
             });
