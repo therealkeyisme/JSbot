@@ -1,6 +1,34 @@
 module.exports = {
     run:  async(client, message, args) => {
-        let embedContent = message.content.substring(8);
+        if (args.toLowerCase() === "?embed") {
+            return message.channel.send("You need to make sure you give me some arguments so I know where everything goes.")
+        } else if (!message.member.hasPermission('ADMINISTRATOR')) {
+            return message.channel.send("You don't have permissions to use this command")
+        }
+        args = args.split(", ");
+        let { cache } = message.guild.roles
+        
+        let embedChannel = client.channels.cache.get(args[0].substring(8))
+        let embedTitle = args[1].substring(6);
+        let embedDescription = args[2].substring(12);
+        let embedAuthor = message.author.username;
+        if (args[3] === undefined) {
+            embedThumbnail = message.author.displayAvatarURL();
+        } else {
+            embedThumbnail = args[3].substring(10)
+        }
+        embedThumbnail = {
+            url: embedThumbnail,
+            height: 25,
+            width: 25,
+        }
+        let embedTimestamp = new Date()
+        // console.log(embedTitle)
+        // console.log(embedDescription)
+        // console.log(embedAuthor)
+        // console.log(embedThumbnail)
+        // console.log(embedChannel)
+        
             /*let embed = new discord.MessageEmbed()
             embed.setDescription(embedContent)
             embed.addField('message', embedContent)
@@ -13,18 +41,13 @@ module.exports = {
             message.channel.send(embed)*/
 
         let embed = {
-            image : {
-                URL : message.author.displayAvatarURL()
-            },
-            description : embedContent,
-            thumbnail : {
-                url : message.author.displayAvatarURL(),
-                height : 25,
-                width : 25
-            },
-            timestamp : new Date()
+            title : embedTitle,
+            description : embedDescription,
+            thumbnail : embedThumbnail,
+            timestamp : embedTimestamp,
+            author : embedAuthor
         }
-        message.channel.send({ embed });
+        embedChannel.send({ embed });
     },
     aliases: [],
     description: "Creates an embed"
