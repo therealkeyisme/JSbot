@@ -48,6 +48,7 @@ module.exports = {
             author : embedAuthor
         }
         embedChannel.send({ embed });
+        return message.delete({ timeout: 15000 })
     },
     aliases: [],
     description: "Creates an embed"
