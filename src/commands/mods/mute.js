@@ -1,5 +1,8 @@
 module.exports = {
     run: async(client, message, args) => {
+        return
+        let { cache } = message.guild.roles;
+        let mutedRole = cache.find(role => role.name.toLowerCase() === "muted");
         if(!message.member.hasPermission(['KICK_MEMBERS', 'BAN_MEMBERS'])) {
             message.channel.send("You don't have permission to use that command.");
         }
@@ -12,7 +15,6 @@ module.exports = {
                     message.channel.send("You cannot mute this member");
                 }
                 else {
-                    let mutedRole = message.guild.roles.cache.get('783967136280084482');
                     if(mutedRole) {
                         member.roles.add(mutedRole);
                         message.channel.send("User was muted");
