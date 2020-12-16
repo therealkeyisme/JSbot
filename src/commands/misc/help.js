@@ -1,15 +1,97 @@
 module.exports = {
-    run: async(client, message) => {
+    run: async(client, message, args) => {
         // #TODO: Add the music commands to help
         message.delete({ timeout: 5000});
-        let embedMessage = "-`?roll` rolls a dice\n-`?request` reports a bug\n-`?shopping` maintains and stores a " +
-            "shopping list\n-`?help` displays this message\n-`?ban` bans people\n-`?kick` kicks people\n-`?request` " +
-            "sends an issue to the bot developer\n-`?addrole` adds a role to a player\n-`?delrole` removes a role from " +
-            "a player\n-`?mute` mutes a player\n-`?unmute` unmutes a player\n-`?play` plays a song in the voice channel" +
-            "\n`?skip` skips the current song\n-`?np` shows the current playing song\n-`?pause` pauses the song thats " +
-            "playing\n\nSubcommands coming soon™"
+        let embedMessage;
+        let embedTitle;
+        
+        let switchValue = args.split(" ")[0]
+        console.log(switchValue)
+
+        switch (switchValue) {
+            case "request":
+                embedMessage = `Informs the bot developer of anyr requests or issues with the software. This is helpful most likely if you want or need a new feature implimented.`;
+                embedTitle = "?Request help";
+                break;
+            case "roll":
+                embedMessage = `Lets you roll a simple 6 sided dice.`
+                embedTitle = "?Roll help"
+                break;
+            case "shopping":
+                embedMessage = "The following are arguments for the `?shopping` command:\n-`?shopping add` adds whatever is placed after it to the list\n-`?shopping list` lists all of the items on the shopping list\n-`?shopping rem` removes an item from the shopping list\n-`?shopping clear` removes all of the items from the shopping list"
+                embedTitle = "?Shopping help"
+                break;
+            case "ban":
+                embedMessage = "Usage - `?ban <userid>`"
+                embedTitle = "?Ban help"
+                break;
+            case "kick":
+                embedMessage = "Usage - `?kick <userid>`"
+                embedTitle = "?Kick help"
+                break;
+            case "addrole":
+                embedMessage = "Usage - `?addrole <role1>, <role2>"
+                embedTitle = "?AddRole help"
+                break;
+            case "delrole":
+                embedMessage = "Usage - `?delrole <role1>, <role2>"
+                embedTitle = "?DelRole help"
+                break;
+            case "mute":
+                embedMessage = "Usage - `?mute <userid>`"
+                embedTitle = "?Mute help"
+                break;
+            case "unmute":
+                embedMessage = "Usage - `?unmute <userid>`"
+                embedTitle = "?UnMute help"
+                break;
+            case "play":
+                embedMessage = "Usage - `?play <youtube-url>`"
+                embedTitle = "?Play help"
+                break;
+            case "skip":
+                embedMessage = "Usage - `?skip"
+                embedTitle = "?Skip help"
+                break;
+            case "np":
+                embedMessage = "Usage - `?np`"
+                embedTitle = "?NP help"
+                break;
+            case "pause":
+                embedMessage = "Usage -`?pause`"
+                embedTitle = "?Pause help"
+                break;
+            case "resume":
+                embedMessage = "Usage -`?resume`"
+                embedTitle = "?Resume help"
+                break;
+            default:
+                embedMessage = `If you want more details on any of the following commands, just simply put the command name (no prefix) after the \`?help\` command
+
+-\`?help\` displays this message
+-\`?request\` sends an issue to the bot developer
+-\`?roll\` rolls a dice
+-\`?shopping\` maintains and stores a shopping list
+-\`?ban\` bans people
+-\`?kick\` kicks people
+-\`?addrole\` adds a role to a player
+-\`?delrole\` removes a role from a player
+-\`?mute\` mutes a player
+-\`?unmute\` unmutes a player
+-\`?play\` plays a song in the voice channel
+\`?skip\` skips the current song
+-\`?np\` shows the current playing song
+-\`?pause\` pauses the song thats playing
+-\`?resume\` continues the song that was paused
+
+Subcommands coming soon™`
+                embedTitle = "Help menu";
+                break;
+        }
+
+
         let embed = {
-            title : "Do you need help with any of these commands?",
+            title : embedTitle,
             color : '#63d6ff',
             description: embedMessage
         }
