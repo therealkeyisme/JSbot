@@ -9,7 +9,7 @@ module.exports = {
 
         switch (switchValue) {
             case "embed":
-                embedMessage = "`?embed channel <channelid>, title <title>, description <description>, thumnail <thumbnail-url>";
+                embedMessage = "`?embed channel <channelid>, title <title>, description <description>, thumnail <thumbnail-url>`";
                 embedTitle = "?Embed help";
                 break;
             case "request":
@@ -33,11 +33,11 @@ module.exports = {
                 embedTitle = "?Kick help";
                 break;
             case "addrole":
-                embedMessage = "Usage - `?addrole <role1>, <role2>";
+                embedMessage = "Usage - `?addrole <role1>, <role2>`";
                 embedTitle = "?AddRole help";
                 break;
             case "delrole":
-                embedMessage = "Usage - `?delrole <role1>, <role2>";
+                embedMessage = "Usage - `?delrole <role1>, <role2>`";
                 embedTitle = "?DelRole help";
                 break;
             case "mute":
