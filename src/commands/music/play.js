@@ -21,7 +21,9 @@ module.exports = {
         if(serverQueue){
             serverQueue.songs.push(song);
             console.log(serverQueue.songs);
-            message.channel.send(`✅ **${song.title}** has been added to the queue!`.then(message => message.delete({timeout:5000})).catch(err => {throw err}));
+            message.channel.send(`✅ **${song.title}** has been added to the queue!`)
+                .then(message => message.delete({timeout:5000}))
+                .catch(err => {throw err});
             return;
         }
 
@@ -60,7 +62,7 @@ module.exports = {
             console.error(`I could not join the voice channel: ${error}`);
             message.client.queue.delete(message.guild.id);
             await channel.leave();
-            return message.channel.send(`I could not join the voice channel: ${error}`.then(message => message.delete({timeout:5000})).catch(err => {throw err}))
+            return message.channel.send(`I could not join the voice channel: ${error}`).then(message => message.delete({timeout:5000})).catch(err => {throw err})
         }
 
     },
