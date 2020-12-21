@@ -10,7 +10,7 @@ module.exports = {
         switch (switchValue) {
             case 'embed':
                 embedMessage =
-                    '`?embed channel <channelid>, title <title>, description <description>, thumnail <thumbnail-url>`';
+                    '`?embed channel <channelid>, title <title>, description <description>, thumbnail <thumbnail-url>`';
                 embedTitle = '?Embed help';
                 break;
             case 'request':
