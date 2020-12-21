@@ -1,37 +1,43 @@
-const MessageModel = require('../../database/models/message')
-module.exports = async (client, reaction, user) =>{
-    if(reaction.message.guild.members.cache.get(user.id).user.bot) {
-        console.log("The bot did a thing")
-        return 
+const MessageModel = require('../../database/models/message');
+module.exports = async (client, reaction, user) => {
+    if (reaction.message.guild.members.cache.get(user.id).user.bot) {
+        console.log('The bot did a thing');
+        return;
     }
     let removeMemberRole = (emojiRoleMappings) => {
-        if(emojiRoleMappings.hasOwnProperty(reaction.emoji.id)) {
+        if (emojiRoleMappings.hasOwnProperty(reaction.emoji.id)) {
             let roleId = emojiRoleMappings[reaction.emoji.id];
-            let role =reaction.message.guild.roles.cache.get(roleId);
-            let member = reaction.message.guild.members.cache.get(user.id);
-            if(role && member) {
+            let role = reaction.message.guild.roles.cache.get(roleId);
+            let member = reaction.message.guild.members.cache.get(
+                user.id,
+            );
+            if (role && member) {
                 member.roles.remove(role);
-                
             }
         }
-    }
-    if(!reaction.message.partial) {
-        await reaction.message.fetch
+    };
+    if (!reaction.message.partial) {
+        await reaction.message.fetch;
         let { id } = reaction.message;
         try {
-            let msgDocument = await MessageModel.findOne({ messageId: id});
-            if(msgDocument){
-                client.cachedMessageReactions.set(id, msgDocument.emojiRoleMappings);
+            let msgDocument = await MessageModel.findOne({
+                messageId: id,
+            });
+            if (msgDocument) {
+                client.cachedMessageReactions.set(
+                    id,
+                    msgDocument.emojiRoleMappings,
+                );
                 let { emojiRoleMappings } = msgDocument;
-                removeMemberRole(emojiRoleMappings)
+                removeMemberRole(emojiRoleMappings);
             }
+        } catch (err) {
+            console.log(err);
         }
-        catch(err) {
-            console.log(err)
-        }
-    }
-    else {
-        let emojiRoleMappings = client.cachedMessageReactions.get(reaction.message.id);
+    } else {
+        let emojiRoleMappings = client.cachedMessageReactions.get(
+            reaction.message.id,
+        );
         removeMemberRole(emojiRoleMappings);
     }
 };

@@ -1,25 +1,34 @@
 const PREFIX = process.env.PREFIX;
 module.exports = (client, message) => {
-    if(message.author.bot) return;
-    console.log(message.author)
-    if(message.content.toLowerCase() === "thank you" || message.content.toLowerCase() === "thenk you") 
+    if (message.author.bot) return;
+    console.log(message.author);
+    if (
+        message.content.toLowerCase() === 'thank you' ||
+        message.content.toLowerCase() === 'thenk you'
+    )
         return message.channel.send("You're very welcome ! 🥰");
 
-    if(message.content.toLowerCase() === "i love you babybot") 
-        return message.channel.send("ily 2 ");
-    
-    if(!message.content.startsWith(PREFIX)) return;
-    let cmdName = message.content.substring(message.content.indexOf(PREFIX) + 1).split(new RegExp(/\s+/)).shift();
-    let argsToParse = message.content.substring(message.content.indexOf(" ") + 1);
+    if (message.content.toLowerCase() === 'i love you babybot')
+        return message.channel.send('ily 2 ');
 
-    if(client.commands.get(cmdName)) {
+    if (!message.content.startsWith(PREFIX)) return;
+    let cmdName = message.content
+        .substring(message.content.indexOf(PREFIX) + 1)
+        .split(new RegExp(/\s+/))
+        .shift();
+    let argsToParse = message.content.substring(
+        message.content.indexOf(' ') + 1,
+    );
+
+    if (client.commands.get(cmdName)) {
         client.commands.get(cmdName)(client, message, argsToParse);
-    }
-    else {
+    } else {
         try {
-            message.channel.send("I don't understand you :(( \ncan you please speak in 1s and 0s?")
+            message.channel.send(
+                "I don't understand you :(( \ncan you please speak in 1s and 0s?",
+            );
         } catch (err) {
-            console.log(err)
+            console.log(err);
         }
     }
 };

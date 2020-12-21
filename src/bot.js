@@ -1,7 +1,12 @@
 require('dotenv').config();
 const discord = require('discord.js');
-const client = new discord.Client({ partials: ['MESSAGE', 'REACTION'] });
-const { registerCommands, registerEvents } = require('./utils/registry');
+const client = new discord.Client({
+    partials: ['MESSAGE', 'REACTION'],
+});
+const {
+    registerCommands,
+    registerEvents,
+} = require('./utils/registry');
 
 (async () => {
     client.login(process.env.BOT_TOKEN);
@@ -11,10 +16,3 @@ const { registerCommands, registerEvents } = require('./utils/registry');
     await registerEvents(client, '../events');
     await registerCommands(client, '../commands');
 })();
-
-
-
-
-
-// const MessageModel = require('./database/models/message')
-// const cachedMessageReactions = new Map();
