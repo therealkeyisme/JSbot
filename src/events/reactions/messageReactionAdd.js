@@ -1,7 +1,6 @@
 const MessageModel = require('../../database/models/message');
 module.exports = async (client, reaction, user) => {
     if (reaction.message.guild.members.cache.get(user.id).user.bot) {
-        console.log('The bot did a thing');
         return;
     }
     // TODO: Don't let bots apply to this. it breaks everything

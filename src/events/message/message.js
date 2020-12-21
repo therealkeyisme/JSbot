@@ -1,7 +1,6 @@
 const PREFIX = process.env.PREFIX;
 module.exports = (client, message) => {
     if (message.author.bot) return;
-    console.log(message.author);
     if (
         message.content.toLowerCase() === 'thank you' ||
         message.content.toLowerCase() === 'thenk you'
