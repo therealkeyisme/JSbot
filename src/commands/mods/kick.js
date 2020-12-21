@@ -5,15 +5,17 @@ module.exports = {
             message.channel.send("You don't have permission to use that command.");
         }
         else {
-            let member = message.guild.members.cache.get(args);
-            if(member) {
-                try {
-                    await member.kick();
-                    console.log("A member has been kicked.")
+            try {
+                let member = await message.guild.members.kick(args);
+                if(member) {
+                    await message.channel.send("A user has been kicked")
                 }
-                catch(err) {
-                    console.log(err);
+                else {
+                    await message.channel.send("I could not find that user")
                 }
+            }
+            catch (err) {
+                console.log(err)
             }
         }
     },
