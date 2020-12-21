@@ -27,7 +27,6 @@ module.exports = {
                     );
                     let emojiRoleMappings = new Map();
                     collector.on('collect', (msg) => {
-                        console.log('collecting');
                         let { cache } = msg.guild.emojis;
                         if (msg.content.toLowerCase() === 'done') {
                             collector.stop('Done command was issued');
@@ -71,7 +70,6 @@ module.exports = {
                         }
                         fetchedMessage
                             .react(emoji)
-                            .then((emoji) => console.log('reacted'))
                             .catch((err) => console.log(err));
                         emojiRoleMappings.set(emoji.id, role.id);
                     });
@@ -80,10 +78,13 @@ module.exports = {
                             { messageId: fetchedMessage.id },
                         ).catch((err) => console.log(err));
                         if (findMsgDocument) {
-                            console.log('dont save');
-                            message.channel.send(
-                                'There is already a role reaction for that message',
-                            );
+                            try {
+                                await message.channel.send(
+                                    'There is already a role reaction for that message',
+                                );
+                            } catch (err) {
+                                console.log(err);
+                            }
                         } else {
                             let dbMsgModel = new MessageModel({
                                 messageId: fetchedMessage.id,
