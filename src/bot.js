@@ -40,6 +40,7 @@ client.on('ready', () => {
 
 client.on('message', async function(message) {
     if(message.author.bot) return;
+    console.log(message.author)
     if(message.content.toLowerCase() === "thank you" || message.content.toLowerCase() === "thenk you") 
         return message.channel.send("You're very welcome ! 🥰");
 
@@ -60,6 +61,10 @@ client.on('message', async function(message) {
 
 
 client.on('messageReactionAdd', async (reaction, user) => {
+    if(reaction.message.guild.members.cache.get(user.id).user.bot) {
+        console.log("The bot did a thing")
+        return 
+    }
     // TODO: Don't let bots apply to this. it breaks everything
     let addMemberRole = (emojiRoleMappings) => {
         if(emojiRoleMappings.hasOwnProperty(reaction.emoji.id)) {
@@ -73,7 +78,7 @@ client.on('messageReactionAdd', async (reaction, user) => {
         }
     }
 
-    if(reaction.message.partial) {
+    if(!reaction.message.partial) {
         await reaction.message.fetch();
         let { id } = reaction.message;
         try {
@@ -96,6 +101,10 @@ client.on('messageReactionAdd', async (reaction, user) => {
 });
 
 client.on('messageReactionRemove', async (reaction, user) => {
+    if(reaction.message.guild.members.cache.get(user.id).user.bot) {
+        console.log("The bot did a thing")
+        return 
+    }
     let removeMemberRole = (emojiRoleMappings) => {
         if(emojiRoleMappings.hasOwnProperty(reaction.emoji.id)) {
             let roleId = emojiRoleMappings[reaction.emoji.id];
@@ -107,7 +116,7 @@ client.on('messageReactionRemove', async (reaction, user) => {
             }
         }
     }
-    if(reaction.message.partial) {
+    if(!reaction.message.partial) {
         await reaction.message.fetch
         let { id } = reaction.message;
         try {
