@@ -57,7 +57,7 @@ client.on('message', async function(message) {
 });
 
 client.on('messageReactionAdd', async(reaction, user) => {
-    let addUserRole = (emojiRoleMappings) => {
+    let addMemberRole = (emojiRoleMappings) => {
         if(emojiRoleMappings.hasOwnProperty(reaction.emoji.id)) {
             let roleId = emojiRoleMappings[reaction.emoji.id];
             let role = reaction.message.guild.roles.cache.get(roleId);
@@ -68,13 +68,14 @@ client.on('messageReactionAdd', async(reaction, user) => {
         }
     }
     if(reaction.message.partial) {
+        await reaction.message.fetch()
         let { id } = reaction.message;
         try {
-            let msgDocument = await MessageModel.findOne({ message: id });
-            if(msgDocumet) {
+            let msgDocument = await MessageModel.findOne({ messageId: id });
+            if(msgDocument) {
                 cachedMessageReactions.set(id, msgDocument.emojiRoleMappings);
                 let { emojiRoleMappings } = msgDocument;
-                addUserRole(emojiRoleMappings);
+                addMemberRole(emojiRoleMappings);
             }
         }
         catch (err) {
@@ -83,7 +84,39 @@ client.on('messageReactionAdd', async(reaction, user) => {
     } 
     else {
         let emojiRoleMappings = cachedMessageReactions.get(reaction.message.id);
-        addUserRole(emojiRoleMappings);
+        addMemberRole(emojiRoleMappings);
+    }
+});
+
+client.on('messageReactionRemove', async(reaction, user) => {
+    let removeMemberRole = (emojiRoleMappings) => {
+        if(emojiRoleMappings.hasOwnProperty(reaction.emoji.id)) {
+            let roleId = emojiRoleMappings[reaction.emoji.id];
+            let role = reaction.message.guild.roles.cache.get(roleId);
+            let member = reaction.message.guild.members.cache.get(user.id);
+            if(role && member){
+                member.roles.remove(role);
+            }
+        }
+    }
+    if(reaction.message.partial) {
+        await reaction.message.fetch();
+        let { id } = reaction.message;
+        try {
+            let msgDocument = await MessageModel.findOne({ messageId: id });
+            if(msgDocument) {
+                cachedMessageReactions.set(id, msgDocument.emojiRoleMappings);
+                let { emojiRoleMappings } = msgDocument;
+                removeMemberRole(emojiRoleMappings);
+            }
+        }
+        catch (err) {
+            console.log(err);
+        };
+    }
+    else {
+        let emojiRoleMappings = cachedMessageReactions.get(reaction.message.id);
+        removeMemberRole(emojiRoleMappings)
     }
 });
 
