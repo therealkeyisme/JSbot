@@ -12,6 +12,7 @@ module.exports = {
         let devUser = client.users.fetch(DEVID).then((value) => {
             value.send(devMessage);
         });
+        message.channel.send(returnMessage);
 
         jsonReader('src/data/botdata.json', (err, data) => {
             if (err) {
@@ -26,7 +27,7 @@ module.exports = {
                         if (err) {
                             console.log(err);
                         } else {
-                            message.channel.send(returnMessage);
+                            
                         }
                     },
                 );
