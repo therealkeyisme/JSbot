@@ -73,13 +73,11 @@ module.exports = {
                 await message.channel.send("I have removed those things from the shopping list")
             } 
             else if (command.toLowerCase() === 'show' || command.toLowerCase() == 'list') {
-                if(!shopDocument){
+                if(!shopDocument || shopList.length == 0){
+                    if(!shopDocument){
                     let items = []
                     dbModelSaver(GUILDID, items)
-                    let returnMessage ="I was not able to find your shopping list. I either lost it or you haven't given it to me yet.";
-                    message.channel.send(returnMessage).then((message) =>message.delete({ timeout: 10000 }),).catch((err) => {throw err;});
-                }
-                else if (shopList.length == 0){
+                    }
                     let returnMessage ="I was not able to find your shopping list. I either lost it or you haven't given it to me yet.";
                     message.channel.send(returnMessage).then((message) =>message.delete({ timeout: 10000 }),).catch((err) => {throw err;});
                 }
