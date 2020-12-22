@@ -16,29 +16,21 @@ module.exports = async (client, reaction, user) => {
             }
         }
     };
-
-    if (!reaction.message.partial) {
-        await reaction.message.fetch();
-        let { id } = reaction.message;
-        try {
-            let msgDocument = await MessageModel.findOne({
-                messageId: id,
-            });
-            if (msgDocument) {
-                client.cachedMessageReactions.set(
-                    id,
-                    msgDocument.emojiRoleMappings,
-                );
-                let { emojiRoleMappings } = msgDocument;
-                addMemberRole(emojiRoleMappings);
-            }
-        } catch (err) {
-            console.log(err);
+    await reaction.message.fetch();
+    let { id } = reaction.message;
+    try {
+        let msgDocument = await MessageModel.findOne({
+            messageId: id,
+        });
+        if (msgDocument) {
+            client.cachedMessageReactions.set(
+                id,
+                msgDocument.emojiRoleMappings,
+            );
+            let { emojiRoleMappings } = msgDocument;
+            addMemberRole(emojiRoleMappings);
         }
-    } else {
-        let emojiRoleMappings = client.cachedMessageReactions.get(
-            reaction.message.id,
-        );
-        addMemberRole(emojiRoleMappings);
+    } catch (err) {
+        console.log(err);
     }
 };
