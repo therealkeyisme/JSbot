@@ -1,226 +1,118 @@
 const fs = require('fs');
+const { cpuUsage } = require('process');
+const ShoppingModel = require('../../database/models/shoppingschema');
 const { jsonReader } = require('../../utils/jsonreader');
 
-// TODO: Clean up this code
+let dbModelSaver = async(GUILDID, items) => {
+    let dbShopModel = new ShoppingModel({
+        serverId: GUILDID,
+        shoppinglist: items
+    })
+    dbShopModel.save()
+}
+let dbUpdate = async(shopDocument, shopList) => {
+    let newShopList = { shoppinglist: shopList};
+    await shopDocument.updateOne(newShopList)
+}
+
 module.exports = {
     run: async (client, message, args) => {
-        const GUILDID = message.guild.id;
-        message.delete({ timeout: 5000 });
-        let command = args.split(' ')[0];
 
-        if (command.toLowerCase() === 'add') {
+        try {
+            const GUILDID = message.guild.id;
+            // message.delete({ timeout: 5000 });
+            let command = args.split(' ')[0];
             let items = args.substr(4, args.length).split(', ');
-            jsonReader('src/data/botdata.json', (err, data) => {
-                if (err) {
-                    console.log(err);
-                } else {
-                    let j = -1;
-                    // let newShoppingList = ["cheese", "milk"]
-                    for (let i = 0; i < data.server.length; i++) {
-                        if (data.server[i].serverid === GUILDID) {
-                            j = i;
-                        }
-                    }
-                    if (data.server[j] === undefined) {
-                        let newServerData = {
-                            serverid: GUILDID,
-                            shoppinglist: items,
-                        };
-                        data.server.push(newServerData);
-                    } else {
-                        for (
-                            i = data.server[j].shoppinglist.length;
-                            i >= 0;
-                            i--
-                        ) {
-                            for (let k = 0; k < items.length; k++) {
-                                if (
-                                    data.server[j].shoppinglist[i] ==
-                                    items[k]
-                                ) {
-                                    items.splice(i, 1);
-                                    break;
-                                }
-                            }
-                        }
-
-                        data.server[j].shoppinglist = data.server[
-                            j
-                        ].shoppinglist.concat(items);
-                    }
-                    fs.writeFile(
-                        'src/data/botdata.json',
-                        JSON.stringify(data, null, 2),
-                        (err) => {
-                            if (err) {
-                                console.log(err);
-                            } else {
-                                message.channel
-                                    .send(
-                                        'Your items have been added to the shopping list',
-                                    )
-                                    .then((message) =>
-                                        message.delete({
-                                            timeout: 10000,
-                                        }),
-                                    )
-                                    .catch((err) => {
-                                        throw err;
-                                    });
-                            }
-                        },
-                    );
+            let shopDocument = await ShoppingModel.findOne({
+                serverId: GUILDID,
+            })
+            let shopList;
+            if(shopDocument){
+                shopList = shopDocument.shoppinglist;
+                console.log(shopDocument.shoppinglist)
+            }
+            if(command.toLowerCase() === "add") {
+                if(!shopDocument) {
+                    dbModelSaver(GUILDID, items);
                 }
-            });
-        } else if (command.toLowerCase() === 'rem') {
-            let items = args.substr(4, args.length).split(', ');
-            jsonReader('src/data/botdata.json', (err, data) => {
-                if (err) {
-                    console.log(err);
-                } else {
-                    let j = -1;
-                    // let newShoppingList = ["cheese", "milk"]
-                    for (let i = 0; i < data.server.length; i++) {
-                        if (data.server[i].serverid === GUILDID) {
-                            j = i;
-                        }
-                    }
-                    if (data.server[j] === undefined) {
-                        let newServerData = {
-                            serverid: GUILDID,
-                            shoppinglist: [],
-                        };
-                        data.server.push(newServerData);
-                    } else {
-                        for (
-                            i = data.server[j].shoppinglist.length;
-                            i >= 0;
-                            i--
-                        ) {
-                            for (let k = 0; k < items.length; k++) {
-                                if (
-                                    data.server[j].shoppinglist[i] ==
-                                    items[k]
-                                ) {
-                                    data.server[
-                                        j
-                                    ].shoppinglist.splice(i, 1);
-                                    break;
-                                }
+                else {
+                    for (let i = items.length;i >= 0;i--) {
+                        for (let k = 0; k < shopList.length; k++) {
+                            if (
+                                    shopList[k]==items[i]
+                            ) {
+                                items.splice(i, 1);
+                                break;
                             }
                         }
                     }
-                    fs.writeFile(
-                        'src/data/botdata.json',
-                        JSON.stringify(data, null, 2),
-                        (err) => {
-                            if (err) {
-                                console.log(err);
-                            } else {
-                                message.channel
-                                    .send(
-                                        'Your items have been removed from the shopping list',
-                                    )
-                                    .then((message) =>
-                                        message.delete({
-                                            timeout: 10000,
-                                        }),
-                                    )
-                                    .catch((err) => {
-                                        throw err;
-                                    });
-                            }
-                        },
-                    );
+                    shopList = shopList.concat(items)
+                    dbUpdate(shopDocument, shopList)
+                    // let newShopList = { shoppinglist: shopList}
+                    // await shopDocument.updateOne(newShopList);
                 }
-            });
-        } else if (
-            command.toLowerCase() === 'show' ||
-            command.toLowerCase() === 'list'
-        ) {
-            jsonReader('src/data/botdata.json', (err, data) => {
-                if (err) {
-                    console.log(err);
-                } else {
-                    let j = -1;
-                    // let newShoppingList = ["cheese", "milk"]
-                    for (let i = 0; i < data.server.length; i++) {
-                        if (data.server[i].serverid === GUILDID) {
-                            j = i;
+                await message.channel.send("I have added your things to the shopping list");
+            } 
+            else if (command.toLowerCase() === 'rem') {
+                if(!shopDocument) {
+                    let items = []
+                    dbModelSaver(GUILDID, items);
+                }
+                else {
+                    
+                    for (i = shopList.length; i >= 0; i--){
+                        for (let k = 0; k < items.length; k++){
+                            if(shopList[i] === items[k]) {
+                                shopList.splice(i, 1);
+                                break;
+                            }
                         }
                     }
-                    if (
-                        data.server[j] === undefined ||
-                        data.server[j].shoppinglist[0] === undefined
-                    ) {
-                        let returnMessage =
-                            "I was not able to find your shopping list. I either lost it or you haven't given it to me yet.";
-                        message.channel
-                            .send(returnMessage)
-                            .then((message) =>
-                                message.delete({ timeout: 10000 }),
-                            )
-                            .catch((err) => {
-                                throw err;
-                            });
-                    } else {
-                        returnList = data.server[j].shoppinglist
-                            .sort()
-                            .join('\n');
-                        returnMessage =
-                            'The following items are on your shopping list: \n ```' +
-                            returnList +
-                            '```';
-                        message.channel.send(returnMessage);
-                    }
+                    dbUpdate(shopDocument, shopList)
                 }
-            });
-        } else if (command.toLowerCase() === 'clear') {
-            jsonReader('src/data/botdata.json', (err, data) => {
-                if (err) {
-                    console.log(err);
-                } else {
-                    let j = -1;
-                    // let newShoppingList = ["cheese", "milk"]
-                    for (let i = 0; i < data.server.length; i++) {
-                        if (data.server[i].serverid === GUILDID) {
-                            j = i;
-                        }
-                    }
-                    if (data.server[j] === undefined) {
-                        let newServerData = {
-                            serverid: GUILDID,
-                            shoppinglist: [],
-                        };
-                        data.server.push(newServerData);
-                    } else {
-                        data.server[j].shoppinglist = [];
-                    }
-                    fs.writeFile(
-                        'src/data/botdata.json',
-                        JSON.stringify(data, null, 2),
-                        (err) => {
-                            if (err) {
-                                console.log(err);
-                            } else {
-                                message.channel.send(
-                                    'Your shopping list has been cleared.'
-                                        .then((message) =>
-                                            message.delete({
-                                                timeout: 10000,
-                                            }),
-                                        )
-                                        .catch((err) => {
-                                            throw err;
-                                        }),
-                                );
-                            }
-                        },
-                    );
+                await message.channel.send("I have removed those things from the shopping list")
+            } 
+            else if (command.toLowerCase() === 'show' || command.toLowerCase() == 'list') {
+                if(!shopDocument){
+                    let items = []
+                    dbModelSaver(GUILDID, items)
+                    let returnMessage ="I was not able to find your shopping list. I either lost it or you haven't given it to me yet.";
+                    message.channel.send(returnMessage).then((message) =>message.delete({ timeout: 10000 }),).catch((err) => {throw err;});
                 }
-            });
+                else if (shopList.length == 0){
+                    let returnMessage ="I was not able to find your shopping list. I either lost it or you haven't given it to me yet.";
+                    message.channel.send(returnMessage).then((message) =>message.delete({ timeout: 10000 }),).catch((err) => {throw err;});
+                }
+                else {
+                    returnList = shopList.sort().join('\n');
+                    console.log(returnList)
+                    returnMessage = 'The following items are on your shopping list: \n ```\n' +
+                    returnList +
+                    '\n```';
+                    console.log(returnMessage)
+                    await message.channel.send(returnMessage)
+                }
+            } 
+            else if (command.toLowerCase() === 'clear') {
+                if(!shopDocument) {
+                    let items = []
+                    dbModelSaver(GUILDID, items);
+                }
+                else {
+                    shopList = []
+                    dbUpdate(shopDocument, shopList);
+                }
+                await message.channel.send("I have cleared the shopping list!")
+            }
         }
+        catch (err) {
+            console.log(err)
+        }
+        
+
+        
     },
-    aliases: [],
+    aliases: ["shop"],
     description: 'Maintains and stores a shopping list',
+    //TODO: Finish working on this piece of code
 };
