@@ -12,27 +12,7 @@ module.exports = {
         let devUser = client.users.fetch(DEVID).then((value) => {
             value.send(devMessage);
         });
-
-        jsonReader('src/data/botdata.json', (err, data) => {
-            if (err) {
-                console.log(err);
-            } else {
-                data.requests.push(args);
-
-                fs.writeFile(
-                    'src/data/botdata.json',
-                    JSON.stringify(data, null, 2),
-                    (err) => {
-                        if (err) {
-                            console.log(err);
-                        } else {
-                            message.channel.send(returnMessage);
-                        }
-                    },
-                );
-            }
-        });
-        // !
+        message.channel.send(returnMessage);
     },
     aliases: ['report', 'issue'],
     description: 'Makes a request for a feature or reports a bug',
