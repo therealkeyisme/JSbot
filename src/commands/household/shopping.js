@@ -1,5 +1,4 @@
 const fs = require('fs');
-const { cpuUsage } = require('process');
 const ShoppingModel = require('../../database/models/shoppingschema');
 const { jsonReader } = require('../../utils/jsonreader');
 
