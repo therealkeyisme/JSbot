@@ -8,7 +8,7 @@ module.exports = (client, message) => {
         return message.channel.send("You're very welcome ! 🥰");
 
     if (message.content.toLowerCase() === 'i love you babybot')
-        return message.channel.send('ily 2 ');
+        return message.channel.send('ily2 ' + message.author.username);
 
     if (!message.content.startsWith(PREFIX)) return;
     let cmdName = message.content
