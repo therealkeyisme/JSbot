@@ -2,10 +2,11 @@ const fs = require('fs');
 const ShoppingModel = require('../../database/models/shoppingschema');
 const { jsonReader } = require('../../utils/jsonreader');
 
-let dbModelSaver = async(GUILDID, items) => {
+let dbModelSaver = async(GUILDID, items, lastTimeListed) => {
     let dbShopModel = new ShoppingModel({
         serverId: GUILDID,
-        shoppinglist: items
+        shoppinglist: items,
+        lastShopList: lastTimeListed
     })
     dbShopModel.save()
 }
@@ -16,7 +17,7 @@ let dbUpdate = async(shopDocument, shopList) => {
 
 module.exports = {
     run: async (client, message, args) => {
-
+        
         try {
             const GUILDID = message.guild.id;
             // message.delete({ timeout: 5000 });
@@ -26,13 +27,25 @@ module.exports = {
                 serverId: GUILDID,
             })
             let shopList;
+            let lastTimeListed;
             if(shopDocument){
                 shopList = shopDocument.shoppinglist;
-                console.log(shopDocument.shoppinglist)
+                lastTimeListed = shopDocument.lastShopList;
+                console.log(lastTimeListed)
+                if(lastTimeListed && shopList.length != 0) {
+                    try {
+                        lastTimeListed = await message.channel.messages.fetch(lastTimeListed)
+                        console.log(lastTimeListed)
+                        lastTimeListed = await lastTimeListed.unpin()
+                    } catch (err) {
+                        console.log(err);
+                    }
+                }
             }
             if(command.toLowerCase() === "add") {
                 if(!shopDocument) {
-                    dbModelSaver(GUILDID, items);
+                    let lastTimeListed = ""
+                    dbModelSaver(GUILDID, items, lastTimeListed);
                 }
                 else {
                     for (let i = items.length;i >= 0;i--) {
@@ -55,8 +68,9 @@ module.exports = {
             else if (command.toLowerCase() === 'rem') {
                 if(!shopDocument) {
                     let items = []
+                    let newShopList = ""
                     dbModelSaver(GUILDID, items);
-                }
+                } 
                 else {
                     
                     for (i = shopList.length; i >= 0; i--){
@@ -82,12 +96,17 @@ module.exports = {
                 }
                 else {
                     returnList = shopList.sort().join('\n');
-                    console.log(returnList)
                     returnMessage = 'The following items are on your shopping list: \n ```\n' +
                     returnList +
                     '\n```';
-                    console.log(returnMessage)
-                    await message.channel.send(returnMessage)
+                    message.channel.send(returnMessage)
+                        .then(msg => {
+                            msg.pin(); 
+                            lastTimeListed = { lastShopList: msg.id};
+                            shopDocument.updateOne(lastTimeListed)
+                                .then(m => console.log(m))
+                                .catch(err => console.log(err));
+                        })
                 }
             } 
             else if (command.toLowerCase() === 'clear') {
@@ -111,5 +130,4 @@ module.exports = {
     },
     aliases: ["shop"],
     description: 'Maintains and stores a shopping list',
-    //TODO: Finish working on this piece of code
 };
