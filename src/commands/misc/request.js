@@ -1,6 +1,4 @@
 require('dotenv').config();
-const fs = require('fs');
-const { jsonReader } = require('../../utils/jsonreader');
 const DEVID = process.env.BOT_OWNER;
 
 module.exports = {
