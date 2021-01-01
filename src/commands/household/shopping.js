@@ -1,5 +1,5 @@
 const fs = require('fs');
-const ShoppingModel = require('../../database/models/shoppingschema');
+const ShoppingModel = require('../../database/models/shoppingSchema');
 const { jsonReader } = require('../../utils/jsonreader');
 
 let dbModelSaver = async(GUILDID, items, lastTimeListed) => {
