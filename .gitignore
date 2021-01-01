@@ -3,3 +3,5 @@
 .vscode/
 src/data/botdata.json
 /node_modules/
+src/events/reactions/messageReactionAdd.js
+*.lock
