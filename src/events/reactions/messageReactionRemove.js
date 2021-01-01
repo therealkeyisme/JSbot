@@ -1,4 +1,4 @@
-const MessageModel = require('../../database/models/message');
+const MessageModel = require('../../database/models/messageSchema');
 module.exports = async (client, reaction, user) => {
     if (reaction.message.guild.members.cache.get(user.id).user.bot) {
         return;
