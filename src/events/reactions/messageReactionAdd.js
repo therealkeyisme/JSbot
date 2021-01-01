@@ -3,7 +3,7 @@ module.exports = async (client, reaction, user) => {
     if (reaction.message.guild.members.cache.get(user.id).user.bot) {
         return;
     }
-    // TODO: Don't let bots apply to this. it breaks everything
+    
     let addMemberRole = (emojiRoleMappings) => {
         if (emojiRoleMappings.hasOwnProperty(reaction.emoji.id)) {
             let roleId = emojiRoleMappings[reaction.emoji.id];
