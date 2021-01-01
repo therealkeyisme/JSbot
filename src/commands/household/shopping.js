@@ -1,19 +1,5 @@
-const fs = require('fs');
 const ShoppingModel = require('../../database/models/shoppingSchema');
-const { jsonReader } = require('../../utils/jsonreader');
-
-let dbModelSaver = async(GUILDID, items, lastTimeListed) => {
-    let dbShopModel = new ShoppingModel({
-        serverId: GUILDID,
-        shoppinglist: items,
-        lastShopList: lastTimeListed
-    })
-    dbShopModel.save()
-}
-let dbUpdate = async(shopDocument, shopList) => {
-    let newShopList = { shoppinglist: shopList};
-    await shopDocument.updateOne(newShopList)
-}
+const { dbModelSaver, dbUpdate } = require('../../utils/shopdbfn')
 
 module.exports = {
     run: async (client, message, args) => {
