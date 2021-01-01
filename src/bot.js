@@ -1,4 +1,6 @@
 require('dotenv').config();
+const cron = require('node-cron')
+const { checkDbEvents } = require('../src/utils/checkForEvents')
 const discord = require('discord.js');
 const client = new discord.Client({
     partials: ['MESSAGE', 'REACTION'],
@@ -7,6 +9,10 @@ const {
     registerCommands,
     registerEvents,
 } = require('./utils/registry');
+
+cron.schedule('* * * * *', () => {
+    checkDbEvents()
+});
 
 (async () => {
     client.login(process.env.BOT_TOKEN);
