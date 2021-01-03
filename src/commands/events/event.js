@@ -6,41 +6,9 @@
 // TODO: celebrate because we finished?
 // TODO: Fix database problems
 const EventModel = require('../../database/models/eventSchema');
-const { informationFromUser, findDate } = require('../../utils/eventfn')
+const { informationFromUser, findDate, dbAnalysis } = require('../../utils/eventfn')
 const Discord = require('discord.js')
 
-let dbAnalysis = async(eventDocument, GUILDID, title, description, eventEmbed, event) => {
-    if(!eventDocument) {
-        let dbModel = new EventModel({
-            events: [
-                {
-                    guildid: GUILDID,
-                    title: title,
-                    date: event,
-                    description: description,
-                    messageId: eventEmbed.id
-                }
-            ]
-        })
-        await dbModel.save()
-    }
-    else {
-        let eventList = eventDocument.events;
-        eventList.push({
-            title: title,
-            date: event,
-            description: description,
-            messageid: eventEmbed.id
-        })
-        console.log(eventList)
-        await dbUpdate(eventDocument, eventList)
-    }
-}
-
-let dbUpdate = async(eventDocument, eventList) => {
-    let newEventList = {events: eventList}
-    await eventDocument.updateOne(newEventList)
-}
 
 module.exports = {
     run: async (client, message) => {
