@@ -1,11 +1,9 @@
-const { helpStatement } = require('../../utils/helpfn')
+const { helpStatement } = require('../../utils/commands/helpfn')
 
 module.exports = {
     run: async (client, message, args) => {
         // #TODO: Add the music commands to help
         message.delete({ timeout: 5000 });
-        let embedMessage;
-        let embedTitle;
 
         let switchValue = args.split(' ')[0];
 

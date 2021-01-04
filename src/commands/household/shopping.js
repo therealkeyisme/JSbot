@@ -1,5 +1,5 @@
 const ShoppingModel = require('../../database/models/shoppingSchema');
-const { dbModelSaver, dbUpdate } = require('../../utils/shopdbfn')
+const { dbModelSaver, dbUpdate } = require('../../utils/commands/shopdbfn')
 
 module.exports = {
     run: async (client, message, args) => {
@@ -18,7 +18,7 @@ module.exports = {
                 shopList = shopDocument.shoppinglist;
                 lastTimeListed = shopDocument.lastShopList;
                 console.log(lastTimeListed)
-                if(lastTimeListed && shopList.length != 0) {
+                if(lastTimeListed && shopList.length !== 0) {
                     try {
                         lastTimeListed = await message.channel.messages.fetch(lastTimeListed)
                         console.log(lastTimeListed)
@@ -37,7 +37,7 @@ module.exports = {
                     for (let i = items.length;i >= 0;i--) {
                         for (let k = 0; k < shopList.length; k++) {
                             if (
-                                    shopList[k]==items[i]
+                                    shopList[k]===items[i]
                             ) {
                                 items.splice(i, 1);
                                 break;

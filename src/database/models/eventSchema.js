@@ -6,7 +6,18 @@ const EventSchema = new mongoose.Schema({
         date: Date,
         description: String,
         messageid: String,
-        attendees: [String]
+        accepted: [{
+            userid: String,
+            nickname: String
+        }],
+        declined: [{
+            userid: String,
+            nickname: String
+        }],
+        tentative: [{
+            userid: String,
+            nickname: String
+        }]
     }]
 })
 
