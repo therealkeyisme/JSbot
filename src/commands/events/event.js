@@ -59,14 +59,10 @@ module.exports = {
 
             embed = {
                 title: "Enter the event description",
-                description: "Type none for no description",
+                description: "Please don't make it too long",
             };
             
             let description = await informationFromUser(dmChannel, embed, defaultFilter);
-
-            if(description == "none") {
-                description = '-'
-            }
 
             // TODO: Add time zone support
             // embed = {
