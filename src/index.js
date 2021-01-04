@@ -19,6 +19,6 @@ cron.schedule('* * * * *', () => {
     client.commands = new Map();
     client.queue = new Map();
     client.cachedMessageReactions = new Map();
-    await registerEvents(client, '../events');
-    await registerCommands(client, '../commands');
+    await registerEvents(client, '../../events');
+    await registerCommands(client, '../../commands');
 })();
