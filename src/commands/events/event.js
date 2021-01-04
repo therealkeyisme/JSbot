@@ -64,6 +64,10 @@ module.exports = {
             
             let description = await informationFromUser(dmChannel, embed, defaultFilter);
 
+            if(description == "none") {
+                description = '-'
+            }
+
             // TODO: Add time zone support
             // embed = {
             //     title: "Enter timezone number",
