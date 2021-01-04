@@ -6,7 +6,7 @@
 // TODO: celebrate because we finished?
 // TODO: Fix database problems
 const EventModel = require('../../database/models/eventSchema');
-const { informationFromUser, findDate, dbAnalysis } = require('../../utils/eventfn')
+const { informationFromUser, findDate, dbAnalysis } = require('../../utils/commands/eventfn')
 const Discord = require('discord.js')
 
 
@@ -94,8 +94,21 @@ module.exports = {
             let returnEmbed = new Discord.MessageEmbed()
                 .setTitle(title)
                 .setDescription(description)
-                .setFooter(`${event.getFullYear()}-${eventMonth}-${event.getDate()} ${event.getHours()}:${eventMinutes}`)
+                .addFields(
+                    {
+                        name: "Time", value: `${event.getFullYear()}-${eventMonth}-${event.getDate()} ${event.getHours()}:${eventMinutes}`
+                    },
+                    {   name: "✅Accepted", value: "-", inline: true   },
+                    {   name: "🛑Declined", value: "-", inline: true   },
+                    {   name: "❔Tentative", value: "-", inline: true    }
+                )
             let eventEmbed = await message.channel.send(returnEmbed)
+
+            await eventEmbed.react("✅")
+            await eventEmbed.react("🛑")
+            await eventEmbed.react("❔")
+
+
             await dbAnalysis(eventDocument, GUILDID, title, description, eventEmbed, event)
         }
         catch(err) {
