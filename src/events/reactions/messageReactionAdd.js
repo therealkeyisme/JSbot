@@ -1,6 +1,6 @@
 const EventModel = require('../../database/models/eventSchema');
 const Discord = require('discord.js');
-const {  roleReaction } = require('../../utils/events/reactionaddfn')
+const { roleReaction } = require('../../utils/events/reactionaddfn')
 
 
 module.exports = async (client, reaction, user) => {
@@ -26,7 +26,9 @@ module.exports = async (client, reaction, user) => {
             userid: user.id,
             nickname: userNickname
         }
+        
         let reactedEvent = events.find(obj => obj.messageid === id)
+        console.log(reactedEvent)
         events.splice([events.indexOf(reactedEvent)])
         if (reactedEvent) {
             let userAccepted = reactedEvent.accepted
@@ -35,22 +37,69 @@ module.exports = async (client, reaction, user) => {
             let declinedList = []
             let userTentative = reactedEvent.tentative
             let tentativeList = []
-            
+            console.log(`${userAccepted}\n${userDeclined}\n${userTentative}`)
+            if(!userAccepted)
+                userAccepted = []
+            if(!userDeclined)
+                userDeclined = []
+            if(!userTentative) 
+                userTentative = []
+
+
             let eventDate = reactedEvent.date
             let eventMinutes = eventDate.getMinutes()
             let eventMonth = eventDate.getMonth() + 1
 
-            console.log(userAccepted)
-            console.log(userDeclined)
-            console.log(userTentative)
+            let userAlreadyAccepted = false
+            let userAlreadyDeclined = false
+            let userAlreadyTentative = false
+            let indexUserAlreadyAccepted
+            let indexUserAlreadyDeclined
+            let indexUserAlreadyTentative
+            for (let i = 0; i < userAccepted.length; i++) {
+                if (userAccepted[i].nickname === userNickname) {
+                    userAlreadyAccepted = true
+                    indexUserAlreadyAccepted = i
+                } 
+            }
+            for (let i = 0; i < userDeclined.length; i++) {
+                if (userDeclined[i].nickname === userNickname) {
+                    userAlreadyDeclined = true
+                    indexUserAlreadyDeclined = i
+                } 
+            }
+            for (let i = 0; i < userTentative.length; i++) {
+                if (userTentative[i].nickname === userNickname) {
+                    userAlreadyTentative = true
+                    indexUserAlreadyTentative = i
+                } 
+            }
+            console.log(userAlreadyTentative)
 
-            console.log("before the switch")
             if (emojiName === "✅") {
-                userAccepted.push(userObject)
+                if (!userAlreadyAccepted) {
+                    userAccepted.push(userObject)
+                    if (userAlreadyDeclined)
+                        userDeclined.splice(indexUserAlreadyDeclined)
+                    if (userAlreadyTentative)
+                        userTentative.splice(indexUserAlreadyTentative)
+                }
             } else if (emojiName === "🛑") {
-                userDeclined.push(userObject)
+                if (!userAlreadyDeclined){
+                    userDeclined.push(userObject)
+                    if (userAlreadyAccepted)
+                        userAccepted.splice(indexUserAlreadyAccepted)
+                    if (userAlreadyTentative)
+                        userTentative.splice(indexUserAlreadyTentative)
+                }
             } else if (emojiName === "❔") {
-                userTentative.push(userObject)
+                if (!userAlreadyTentative){
+                    userTentative.push(userObject)
+                    if (userAlreadyAccepted)
+                        userAccepted.splice(indexUserAlreadyAccepted)
+                    if (userAlreadyDeclined)
+                        userDeclined.splice(indexUserAlreadyDeclined)
+                }
             }
             
             for (let i = 0; i<userAccepted.length; i++) {
@@ -61,6 +110,7 @@ module.exports = async (client, reaction, user) => {
             }
             for (let i = 0; i<userTentative.length; i++) {
                 tentativeList.push(userTentative[i].nickname)
+                console.log("Pushing to tentativeList")
             }
 
             let acceptedString;
@@ -82,7 +132,6 @@ module.exports = async (client, reaction, user) => {
             } else {
                 tentativeString = '-'
             }
-            console.log("Before the embed")
             let returnEmbed = new Discord.MessageEmbed()
                 .setTitle(reactedEvent.title)
                 .setDescription(reactedEvent.description)
@@ -107,7 +156,6 @@ module.exports = async (client, reaction, user) => {
                     })
 
             reaction.message.edit(returnEmbed)
-            console.log("After the embed")
             let newReactedEvent = {
                 guildid: GUILDID,
                 title: reactedEvent.title,
@@ -118,9 +166,6 @@ module.exports = async (client, reaction, user) => {
                 declined: userDeclined,
                 tentative: userTentative
             }
-            console.log(userAccepted)
-            console.log(userDeclined)
-            console.log(userTentative)
             events.push(newReactedEvent)
 
             let newEventList = {events: events}

@@ -82,7 +82,7 @@ let dbAnalysis = async(eventDocument, GUILDID, title, description, eventEmbed, e
                     title: title,
                     date: event,
                     description: description,
-                    messageId: eventEmbed.id
+                    messageId: eventEmbed.id,
                 }
             ]
         })
