@@ -1,10 +1,10 @@
-const tableConfig = require('../../utils/tableConfig');
+const tableConfig = require('../../utils/events/tableConfig');
 const { createStream, table } = require('table');
 const database = require('../../database/database');
 const {
     commandStatus,
     eventStatus,
-} = require('../../utils/registry');
+} = require('../../utils/events/registry');
 
 module.exports = async (client) => {
     console.log(`${client.user.tag} has logged in.`);

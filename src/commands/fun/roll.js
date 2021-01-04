@@ -1,4 +1,4 @@
-const { rollDice } = require('../../utils/dicefn');
+const { rollDice } = require('../../utils/commands/dicefn');
 
 module.exports = {
     run: async (client, message) => {

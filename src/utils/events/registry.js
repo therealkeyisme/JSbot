@@ -4,7 +4,7 @@ const path = require('path');
 const {
     checkCommandModule,
     checkProperties,
-} = require('../utils/validate');
+} = require('./validate');
 const commandStatus = [
         [
             `${c.bold.magenta('Command')}`,
