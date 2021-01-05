@@ -27,9 +27,7 @@ module.exports = async (client, reaction, user) => {
             nickname: userNickname,
             notified: false
         }
-        console.log(eventDocument)
         let reactedEvent = events.find(obj => obj.messageid === id)
-        console.log(reactedEvent)
         events.splice([events.indexOf(reactedEvent)])
         if (reactedEvent) {
             let userAccepted = reactedEvent.accepted
@@ -38,7 +36,6 @@ module.exports = async (client, reaction, user) => {
             let declinedList = []
             let userTentative = reactedEvent.tentative
             let tentativeList = []
-            console.log(`${userAccepted}\n${userDeclined}\n${userTentative}`)
             if(!userAccepted)
                 userAccepted = []
             if(!userDeclined)
@@ -75,7 +72,6 @@ module.exports = async (client, reaction, user) => {
                     indexUserAlreadyTentative = i
                 } 
             }
-            console.log(userAlreadyTentative)
 
             if (emojiName === "✅") {
                 if (!userAlreadyAccepted) {
@@ -111,7 +107,6 @@ module.exports = async (client, reaction, user) => {
             }
             for (let i = 0; i<userTentative.length; i++) {
                 tentativeList.push(userTentative[i].nickname)
-                console.log("Pushing to tentativeList")
             }
 
             let acceptedString;

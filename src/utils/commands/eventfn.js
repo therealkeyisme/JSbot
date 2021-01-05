@@ -31,12 +31,14 @@ const checkDbEvents = async (client) => {
                                 .setDescription(`${currentEvent.title} in ${guildTitle} is starting in just under 30 minutes.`)
                                 .setColor('#63d6ff')
                             await dmChannel.send(returnEmbed)
+                            currentEvent.accepted[j].notified = true
                             // accepted[j].notified = true
                         }
                     }
                 }
                 
             }
+            console.log(currentEvent)
             newEventList.push(currentEvent)
         }
 
@@ -45,7 +47,7 @@ const checkDbEvents = async (client) => {
 
     } catch (err) {
         console.log(err)
-    }
+    }    
 }
 
 let informationFromUser  = async (dmChannel, embed, filter) => {
@@ -149,7 +151,6 @@ let dbAnalysis = async(eventDocument, GUILDID, title, description, eventEmbed, e
 
 let dbUpdate = async(eventDocument, eventList) => {
     let newEventList = {events: eventList}
-    console.log(newEventList)
     await eventDocument.updateOne(newEventList)
 }
 
