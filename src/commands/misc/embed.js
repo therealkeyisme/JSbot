@@ -29,23 +29,7 @@ module.exports = {
             width: 25,
         };
         let embedTimestamp = new Date();
-        // console.log(embedTitle)
-        // console.log(embedDescription)
-        // console.log(embedAuthor)
-        // console.log(embedThumbnail)
-        // console.log(embedChannel)
-
-        /*let embed = new discord.MessageEmbed()
-            embed.setDescription(embedContent)
-            embed.addField('message', embedContent)
-            embed.setColor('#63d6ff')
-            embed.setTimestamp()
-            embed.setTitle("This is an embedded message")
-            embed.setImage(message.author.displayAvatarURL())
-            embed.setAuthor(message.author.tag, message.author.displayAvatarURL())
-            embed.setThumbnail(message.author.displayAvatarURL)
-            message.channel.send(embed)*/
-
+        
         let embed = {
             title: embedTitle,
             description: embedDescription,

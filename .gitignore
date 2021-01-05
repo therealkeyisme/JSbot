@@ -3,3 +3,7 @@
 .vscode/
 src/data/botdata.json
 /node_modules/
+src/events/reactions/messageReactionAdd.js
+*.lock
+src/commands/events/check.js
+src/database/models/prefSchema.js

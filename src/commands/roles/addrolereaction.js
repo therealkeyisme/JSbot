@@ -1,5 +1,5 @@
 const { MessageCollector } = require('discord.js');
-const MessageModel = require('../../database/models/message');
+const MessageModel = require('../../database/models/messageSchema');
 
 let msgCollectorFilter = (newMsg, originalMsg) =>
     newMsg.author.id === originalMsg.author.id;
