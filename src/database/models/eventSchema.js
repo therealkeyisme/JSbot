@@ -8,7 +8,8 @@ const EventSchema = new mongoose.Schema({
         messageid: String,
         accepted: [{
             userid: String,
-            nickname: String
+            nickname: String,
+            notified: Boolean
         }],
         declined: [{
             userid: String,

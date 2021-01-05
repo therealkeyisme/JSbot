@@ -24,9 +24,10 @@ module.exports = async (client, reaction, user) => {
         let events = eventDocument.events
         let userObject = {
             userid: user.id,
-            nickname: userNickname
+            nickname: userNickname,
+            notified: false
         }
-        
+        console.log(eventDocument)
         let reactedEvent = events.find(obj => obj.messageid === id)
         console.log(reactedEvent)
         events.splice([events.indexOf(reactedEvent)])
@@ -154,6 +155,7 @@ module.exports = async (client, reaction, user) => {
                         value: tentativeString,
                         inline: true
                     })
+                .setColor('#63d6ff')
 
             reaction.message.edit(returnEmbed)
             let newReactedEvent = {

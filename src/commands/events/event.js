@@ -59,7 +59,8 @@ module.exports = {
 
             embed = {
                 title: "Enter the event description",
-                description: "Please don't make it too long",
+                description: "Please don't make it too",
+                color: '#63d6ff'
             };
             
             let description = await informationFromUser(dmChannel, embed, defaultFilter);
@@ -74,15 +75,14 @@ module.exports = {
 
             embed= {
                 title: "When should this event start?",
-                description: "```Friday at 9pm\n Tomorrow at 18:00\n Now\n In 1 hour\n YYYY-MM-DD 7:00 PM```"
+                description: "```Friday at 9pm\n Tomorrow at 18:00\n Now\n In 1 hour\n YYYY-MM-DD 7:00 PM```",
+                color: '#63d6ff'
             }
 
             let startTime = (await informationFromUser(dmChannel, embed, timeDateFiler)).toLowerCase();
 
             let event = findDate(startTime, regExpObj)
 
-            console.log(`${event.getFullYear()}-${event.getMonth()}-${event.getDate()} ${event.getHours()}:${event.getMinutes()}`)
-            
             let eventMinutes = event.getMinutes()
             let eventMonth = event.getMonth() + 1
 
@@ -102,6 +102,7 @@ module.exports = {
                     {   name: "🛑Declined", value: "-", inline: true   },
                     {   name: "❔Tentative", value: "-", inline: true    }
                 )
+                .setColor('#63d6ff')
             let eventEmbed = await message.channel.send(returnEmbed)
 
             await eventEmbed.react("✅")

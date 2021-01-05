@@ -10,8 +10,8 @@ const {
     registerEvents,
 } = require('./utils/events/registry');
 
-cron.schedule('* * * * *', () => {
-    checkDbEvents()
+cron.schedule('* * * * *', async () => {
+    await checkDbEvents(client)
 });
 
 (async () => {
