@@ -1,8 +1,6 @@
 module.exports = {
     run: async (client, message) => {
-        const serverQueue = message.client.queue.get(
-            message.guild.id,
-        );
+        const serverQueue = message.client.queue.get(message.guild.id);
         if (!serverQueue) {
             message.channel.send('there is nothing playing');
             return;

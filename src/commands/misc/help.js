@@ -1,4 +1,4 @@
-const { helpStatement } = require('../../utils/commands/helpfn')
+const { helpStatement } = require('../../utils/commands/helpfn');
 
 module.exports = {
     run: async (client, message, args) => {
@@ -7,14 +7,12 @@ module.exports = {
 
         let switchValue = args.split(' ')[0];
 
-        
         try {
             let embed = await helpStatement(switchValue);
-            await message.channel.send({ embed })
+            await message.channel.send({ embed });
         } catch (err) {
-            console.log(err)   
+            console.log(err);
         }
-        
     },
     aliases: ['?'],
     description: 'Lists help on all available commands',

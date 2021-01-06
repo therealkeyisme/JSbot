@@ -1,16 +1,12 @@
 module.exports = {
     run: async (client, message) => {
-        const serverQueue = message.client.queue.get(
-            message.guild.id,
-        );
+        const serverQueue = message.client.queue.get(message.guild.id);
         if (serverQueue && !serverQueue.playing) {
             serverQueue.playing = true;
             serverQueue.connection.dispatcher.resume();
             return message.channel.send(
                 '▶ Resumed the music for you!'
-                    .then((message) =>
-                        message.delete({ timeout: 5000 }),
-                    )
+                    .then((message) => message.delete({ timeout: 5000 }))
                     .catch((err) => {
                         throw err;
                     }),

@@ -1,14 +1,10 @@
 module.exports = {
     run: async (client, message) => {
-        const serverQueue = message.client.queue.get(
-            message.guild.id,
-        );
+        const serverQueue = message.client.queue.get(message.guild.id);
         if (!serverQueue)
             return message.channel.send(
                 'theres nothing in the queue'
-                    .then((message) =>
-                        message.delete({ timeout: 5000 }),
-                    )
+                    .then((message) => message.delete({ timeout: 5000 }))
                     .catch((err) => {
                         throw err;
                     }),

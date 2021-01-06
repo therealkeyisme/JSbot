@@ -1,12 +1,10 @@
-const MessageModel = require('../../database/models/messageSchema')
+const MessageModel = require('../../database/models/messageSchema');
 
 let removeMemberRole = (emojiRoleMappings, reaction, user) => {
     if (emojiRoleMappings.hasOwnProperty(reaction.emoji.id)) {
         let roleId = emojiRoleMappings[reaction.emoji.id];
         let role = reaction.message.guild.roles.cache.get(roleId);
-        let member = reaction.message.guild.members.cache.get(
-            user.id,
-        );
+        let member = reaction.message.guild.members.cache.get(user.id);
         if (role && member) {
             member.roles.remove(role);
         }
@@ -29,8 +27,8 @@ let roleReaction = async (client, reaction, user, id) => {
     } catch (err) {
         console.log(err);
     }
-}
+};
 
 module.exports = {
-    roleReaction
-}
+    roleReaction,
+};

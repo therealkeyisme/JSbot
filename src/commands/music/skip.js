@@ -10,14 +10,10 @@ module.exports = {
                 .catch((err) => {
                     throw err;
                 });
-        const serverQueue = message.client.queue.get(
-            message.guild.id,
-        );
+        const serverQueue = message.client.queue.get(message.guild.id);
         if (!serverQueue)
             return message.channel
-                .send(
-                    'There is nothing playing that I could skip for you.',
-                )
+                .send('There is nothing playing that I could skip for you.')
                 .then((message) => message.delete({ timeout: 5000 }))
                 .catch((err) => {
                     throw err;

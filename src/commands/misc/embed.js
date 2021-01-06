@@ -12,9 +12,7 @@ module.exports = {
         args = args.split(', ');
         let { cache } = message.guild.roles;
 
-        let embedChannel = client.channels.cache.get(
-            args[0].substring(8),
-        );
+        let embedChannel = client.channels.cache.get(args[0].substring(8));
         let embedTitle = args[1].substring(6);
         let embedDescription = args[2].substring(12);
         let embedAuthor = message.author.username;
@@ -29,7 +27,7 @@ module.exports = {
             width: 25,
         };
         let embedTimestamp = new Date();
-        
+
         let embed = {
             title: embedTitle,
             description: embedDescription,

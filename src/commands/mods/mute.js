@@ -11,12 +11,7 @@ module.exports = {
         let mutedRole = cache.find(
             (role) => role.name.toLowerCase() === 'muted',
         );
-        if (
-            !message.member.hasPermission([
-                'KICK_MEMBERS',
-                'BAN_MEMBERS',
-            ])
-        ) {
+        if (!message.member.hasPermission(['KICK_MEMBERS', 'BAN_MEMBERS'])) {
             message.channel.send(
                 "You don't have permission to use that command.",
             );
@@ -26,15 +21,10 @@ module.exports = {
             let member = message.guild.members.cache.get(args);
             if (member) {
                 if (
-                    member.hasPermission([
-                        'KICK_MEMBERS',
-                        'BAN_MEMBERS',
-                    ]) &&
+                    member.hasPermission(['KICK_MEMBERS', 'BAN_MEMBERS']) &&
                     !message.member.hasPermission('ADMINISTRATOR')
                 ) {
-                    message.channel.send(
-                        'You cannot mute this member',
-                    );
+                    message.channel.send('You cannot mute this member');
                 } else {
                     if (mutedRole) {
                         member.roles.add(mutedRole);

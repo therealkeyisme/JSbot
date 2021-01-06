@@ -1,17 +1,14 @@
 require('dotenv').config();
-const cron = require('node-cron')
-const { checkDbEvents } = require('./utils/dbchecksfn')
+const cron = require('node-cron');
+const { checkDbEvents } = require('./utils/dbchecksfn');
 const discord = require('discord.js');
 const client = new discord.Client({
     partials: ['MESSAGE', 'REACTION'],
 });
-const {
-    registerCommands,
-    registerEvents,
-} = require('./utils/events/registry');
+const { registerCommands, registerEvents } = require('./utils/events/registry');
 
 cron.schedule('* * * * *', async () => {
-    await checkDbEvents(client)
+    await checkDbEvents(client);
 });
 
 (async () => {

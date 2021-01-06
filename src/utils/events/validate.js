@@ -5,14 +5,10 @@ module.exports.checkCommandModule = (cmdName, cmdModule) => {
         );
     }
     if (!cmdModule.hasOwnProperty('description')) {
-        throw new Error(
-            `${cmdName} does not have property 'description'`,
-        );
+        throw new Error(`${cmdName} does not have property 'description'`);
     }
     if (!cmdModule.hasOwnProperty('aliases')) {
-        throw new Error(
-            `${cmdName} does not have property 'aliases'`,
-        );
+        throw new Error(`${cmdName} does not have property 'aliases'`);
     }
     return true;
 };

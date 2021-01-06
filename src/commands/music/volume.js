@@ -10,9 +10,7 @@ module.exports = {
                 .catch((err) => {
                     throw err;
                 });
-        const serverQueue = message.client.queue.get(
-            message.guild.id,
-        );
+        const serverQueue = message.client.queue.get(message.guild.id);
         if (!serverQueue) {
             message.channel
                 .send('There is nothing playing.')
@@ -24,9 +22,7 @@ module.exports = {
         }
         if (args.toLowerCase() === '?volume') {
             message.channel
-                .send(
-                    `The current volume is: **${serverQueue.volume}**`,
-                )
+                .send(`The current volume is: **${serverQueue.volume}**`)
                 .then((message) => message.delete({ timeout: 5000 }))
                 .catch((err) => {
                     throw err;
@@ -35,9 +31,7 @@ module.exports = {
         }
         if (args > 1) {
             message.channel
-                .send(
-                    'You cannot set the volume that high. you will die',
-                )
+                .send('You cannot set the volume that high. you will die')
                 .then((message) => message.delete({ timeout: 5000 }))
                 .catch((err) => {
                     throw err;
@@ -45,9 +39,7 @@ module.exports = {
             return;
         } else {
             serverQueue.volume = args; // eslint-disable-line
-            serverQueue.connection.dispatcher.setVolumeLogarithmic(
-                args,
-            );
+            serverQueue.connection.dispatcher.setVolumeLogarithmic(args);
             message.channel
                 .send(`I set the volume to: **${args}**`)
                 .then((message) => message.delete({ timeout: 5000 }))

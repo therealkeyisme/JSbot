@@ -14,9 +14,7 @@ module.exports = {
             });
         } else {
             try {
-                let fetchedMessage = await message.channel.messages.fetch(
-                    args,
-                );
+                let fetchedMessage = await message.channel.messages.fetch(args);
                 if (fetchedMessage) {
                     await message.channel.send(
                         'Please provide all of the emoji names with the role name, one by one, separated with a comma .\ne.g: snapchat, snapchat, where the emoji name comes first and the role name comes second',
@@ -32,9 +30,7 @@ module.exports = {
                             collector.stop('Done command was issued');
                             return;
                         }
-                        let [emojiName, roleName] = msg.content.split(
-                            /,\s+/,
-                        );
+                        let [emojiName, roleName] = msg.content.split(/,\s+/);
                         if (!emojiName && !roleName) return;
                         let emoji = cache.find(
                             (emoji) =>
@@ -43,12 +39,8 @@ module.exports = {
                         );
                         if (!emoji) {
                             msg.channel
-                                .send(
-                                    'Emoji does not exist. Try again.',
-                                )
-                                .then((msg) =>
-                                    msg.delete({ timeout: 2000 }),
-                                )
+                                .send('Emoji does not exist. Try again.')
+                                .then((msg) => msg.delete({ timeout: 2000 }))
                                 .catch((err) => console.log(err));
                             return;
                         }
@@ -59,12 +51,8 @@ module.exports = {
                         );
                         if (!role) {
                             msg.channel
-                                .send(
-                                    'Role does not exist. Try again.',
-                                )
-                                .then((msg) =>
-                                    msg.delete({ timeout: 2000 }),
-                                )
+                                .send('Role does not exist. Try again.')
+                                .then((msg) => msg.delete({ timeout: 2000 }))
                                 .catch((err) => console.log(err));
                             return;
                         }
@@ -74,9 +62,9 @@ module.exports = {
                         emojiRoleMappings.set(emoji.id, role.id);
                     });
                     collector.on('end', async (collected, reason) => {
-                        let findMsgDocument = await MessageModel.findOne(
-                            { messageId: fetchedMessage.id },
-                        ).catch((err) => console.log(err));
+                        let findMsgDocument = await MessageModel.findOne({
+                            messageId: fetchedMessage.id,
+                        }).catch((err) => console.log(err));
                         if (findMsgDocument) {
                             try {
                                 await message.channel.send(

@@ -4,9 +4,7 @@ module.exports = {
         if (serverQueue && serverQueue.playing) {
             serverQueue.playing = false;
             serverQueue.connection.dispatcher.pause();
-            return message.channel.send(
-                '⏸ Paused the music for you!',
-            );
+            return message.channel.send('⏸ Paused the music for you!');
         }
         return message.channel
             .send('theres nothing for me to pause')

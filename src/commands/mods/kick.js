@@ -9,13 +9,9 @@ module.exports = {
             try {
                 let member = await message.guild.members.kick(args);
                 if (member) {
-                    await message.channel.send(
-                        'A user has been kicked',
-                    );
+                    await message.channel.send('A user has been kicked');
                 } else {
-                    await message.channel.send(
-                        'I could not find that user',
-                    );
+                    await message.channel.send('I could not find that user');
                 }
             } catch (err) {
                 console.log(err);

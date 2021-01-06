@@ -15,17 +15,13 @@ module.exports = {
 
         roleSet.forEach((roleName) => {
             let role = cache.find(
-                (role) =>
-                    role.name.toLowerCase() ===
-                    roleName.toLowerCase(),
+                (role) => role.name.toLowerCase() === roleName.toLowerCase(),
             );
             if (role) {
                 if (message.member.roles.cache.has(role.id)) {
                     message.channel
                         .send('You already have this role')
-                        .then((message) =>
-                            message.delete({ timeout: 5000 }),
-                        )
+                        .then((message) => message.delete({ timeout: 5000 }))
                         .catch((err) => {
                             throw err;
                         });
@@ -34,9 +30,7 @@ module.exports = {
                 if (checkPermissionRole(role)) {
                     message.channel
                         .send('You cannot add yourself to this role')
-                        .then((message) =>
-                            message.delete({ timeout: 5000 }),
-                        )
+                        .then((message) => message.delete({ timeout: 5000 }))
                         .catch((err) => {
                             throw err;
                         });
@@ -44,13 +38,9 @@ module.exports = {
                     message.member.roles
                         .add(role.id)
                         .then((member) =>
-                            message.channel.send(
-                                'You were added to the role',
-                            ),
+                            message.channel.send('You were added to the role'),
                         )
-                        .then((message) =>
-                            message.delete({ timeout: 5000 }),
-                        )
+                        .then((message) => message.delete({ timeout: 5000 }))
                         .catch((err) => {
                             throw err;
                         })

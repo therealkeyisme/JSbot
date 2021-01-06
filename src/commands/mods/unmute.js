@@ -7,12 +7,7 @@ module.exports = {
             .catch((err) => {
                 throw err;
             });
-        if (
-            !message.member.hasPermission([
-                'KICK_MEMBERS',
-                'BAN_MEMBERS',
-            ])
-        ) {
+        if (!message.member.hasPermission(['KICK_MEMBERS', 'BAN_MEMBERS'])) {
             message.channel.send(
                 "You don't have permission to use that command.",
             );
@@ -22,15 +17,10 @@ module.exports = {
             let member = message.guild.members.cache.get(args);
             if (member) {
                 if (
-                    member.hasPermission([
-                        'KICK_MEMBERS',
-                        'BAN_MEMBERS',
-                    ]) &&
+                    member.hasPermission(['KICK_MEMBERS', 'BAN_MEMBERS']) &&
                     !message.member.hasPermission('ADMINISTRATOR')
                 ) {
-                    message.channel.send(
-                        'You cannot unmute this member',
-                    );
+                    message.channel.send('You cannot unmute this member');
                 } else {
                     let mutedRole = message.guild.roles.cache.get(
                         '783967136280084482',

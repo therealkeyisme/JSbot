@@ -14,12 +14,8 @@ module.exports = {
             return;
         }
 
-        const serverQueue = message.client.queue.get(
-            message.guild.id,
-        );
-        const songInfo = await ytdl.getInfo(
-            args.replace(/<(.+)>/g, '$1'),
-        );
+        const serverQueue = message.client.queue.get(message.guild.id);
+        const songInfo = await ytdl.getInfo(args.replace(/<(.+)>/g, '$1'));
         const song = {
             id: songInfo.videoDetails.videoId,
             title: Util.escapeMarkdown(songInfo.videoDetails.title),
@@ -30,9 +26,7 @@ module.exports = {
             serverQueue.songs.push(song);
             console.log(serverQueue.songs);
             message.channel
-                .send(
-                    `✅ **${song.title}** has been added to the queue!`,
-                )
+                .send(`✅ **${song.title}** has been added to the queue!`)
                 .then((message) => message.delete({ timeout: 5000 }))
                 .catch((err) => {
                     throw err;
@@ -66,18 +60,14 @@ module.exports = {
                 })
                 .on('error', (error) => console.error(error));
             dispatcher.setVolumeLogarithmic(queue.volume / 5);
-            queue.textChannel.send(
-                `🎶 Start playing: **${song.title}**`,
-            );
+            queue.textChannel.send(`🎶 Start playing: **${song.title}**`);
         };
 
         try {
             queueConstruct.connection = await channel.join();
             await play(queueConstruct.songs[0]);
         } catch (error) {
-            console.error(
-                `I could not join the voice channel: ${error}`,
-            );
+            console.error(`I could not join the voice channel: ${error}`);
             message.client.queue.delete(message.guild.id);
             await channel.leave();
             return message.channel

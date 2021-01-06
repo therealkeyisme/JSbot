@@ -6,9 +6,7 @@ module.exports = {
         message.delete({ timeout: 5000 });
         roleSet.forEach((roleName) => {
             let role = cache.find(
-                (role) =>
-                    role.name.toLowerCase() ===
-                    roleName.toLowerCase(),
+                (role) => role.name.toLowerCase() === roleName.toLowerCase(),
             );
             if (role) {
                 if (message.member.roles.cache.has(role.id)) {
@@ -19,25 +17,19 @@ module.exports = {
                                 'You were removed from the role',
                             ),
                         )
-                        .then((message) =>
-                            message.delete({ timeout: 5000 }),
-                        )
+                        .then((message) => message.delete({ timeout: 5000 }))
                         .catch((err) => {
                             throw err;
                         })
                         .catch((err) => {
                             console.log(err);
-                            message.channel.send(
-                                'Something went wrong',
-                            );
+                            message.channel.send('Something went wrong');
                         });
                 }
             } else {
                 message.channel
                     .send('Role not found')
-                    .then((message) =>
-                        message.delete({ timeout: 5000 }),
-                    )
+                    .then((message) => message.delete({ timeout: 5000 }))
                     .catch((err) => {
                         throw err;
                     });

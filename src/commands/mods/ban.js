@@ -7,9 +7,7 @@ module.exports = {
             );
         } else {
             try {
-                let bannedMember = await message.guild.members.ban(
-                    args,
-                );
+                let bannedMember = await message.guild.members.ban(args);
                 if (bannedMember) {
                     console.log(bannedMember.tag + ' was banned');
                 } else {

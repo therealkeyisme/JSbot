@@ -90,10 +90,10 @@ Subcommands coming soon™`;
         title: embedTitle,
         color: '#63d6ff',
         description: embedMessage,
-    }
+    };
     return embed;
-}
+};
 
 module.exports = {
-    helpStatement
-}
+    helpStatement,
+};
