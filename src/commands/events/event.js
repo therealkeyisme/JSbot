@@ -1,14 +1,7 @@
-// TODO: This all must be linked in with the addrolereaction command possibly split that up into a few files because it will get long
-// TODO: Must treat this very similarly to the way the addrole reaction was treated
-// TODO: Finish the direct messages here
-// TODO: impliment the title, date, and description messages
-// TODO: Write the recurring function checkForEvents
-// TODO: celebrate because we finished?
-// TODO: Fix database problems
 const EventModel = require('../../database/models/eventSchema');
 const { informationFromUser, findDate, dbAnalysis } = require('../../utils/commands/eventfn')
 const Discord = require('discord.js')
-
+const PrefModel = require('../../database/models/prefSchema');
 
 module.exports = {
     run: async (client, message) => {
@@ -49,6 +42,7 @@ module.exports = {
         try {
             let dmChannel = await author.createDM()
             let eventDocument = await EventModel.findOne();
+            let prefDocument = await PrefModel.findOne({guildid: GUILDID})
             let embed = {
                 title: "Enter the event title",
                 description: "Please keep it short",
@@ -103,7 +97,17 @@ module.exports = {
                     {   name: "❔Tentative", value: "-", inline: true    }
                 )
                 .setColor('#63d6ff')
-            let eventEmbed = await message.channel.send(returnEmbed)
+            
+            let eventEmbed
+
+            if (prefDocument) {
+                let channelId = prefDocument.eventChannel
+                let eventChannel = await client.channels.fetch(channelId)
+                eventEmbed = await eventChannel.send(returnEmbed)
+            }   else {
+                eventEmbed = await message.channel.send(returnEmbed)
+            }
+            
 
             await eventEmbed.react("✅")
             await eventEmbed.react("🛑")
@@ -116,6 +120,6 @@ module.exports = {
             console.log(err)
         }
     },
-    aliases: [],
+    aliases: ["makeevent"],
     description: "This is supposed to create an event"
 }

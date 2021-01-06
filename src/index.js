@@ -1,6 +1,6 @@
 require('dotenv').config();
 const cron = require('node-cron')
-const { checkDbEvents } = require('./utils/commands/eventfn')
+const { checkDbEvents } = require('./utils/dbchecksfn')
 const discord = require('discord.js');
 const client = new discord.Client({
     partials: ['MESSAGE', 'REACTION'],

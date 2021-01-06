@@ -6,4 +6,3 @@ src/data/botdata.json
 src/events/reactions/messageReactionAdd.js
 *.lock
 src/commands/events/check.js
-src/database/models/prefSchema.js
