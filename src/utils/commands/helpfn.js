@@ -62,9 +62,22 @@ let helpStatement = (switchValue) => {
             embedMessage = 'Usage -`?resume`';
             embedTitle = '?Resume help';
             break;
+        case 'event':
+            embedMessage = 'Usage -`?event`';
+            embedTitle = '?Event help';
+            break;
+        case 'create':
+            embedMessage = 'Usage -`?event`';
+            embedTitle = '?Create help';
+            break;
+        case 'eventchannel':
+            embedMessage = 'Usage -`eventchannel`';
+            embedTitle = `?EventChannel help`;
+        case 'addrolereaction':
+            embedMessage = 'Usage -`addrolereaction` then follow my advice';
+            embedTitle = `?Addrolereaction help`;
         default:
             embedMessage = `If you want more details on any of the following commands, just simply put the command name (no prefix) after the \`?help\` command
-
 -\`?help\` displays this message
 -\`?embed\` sends an embedded message to a specific channel
 -\`?request\` sends an issue to the bot developer
@@ -81,8 +94,11 @@ let helpStatement = (switchValue) => {
 -\`?np\` shows the current playing song
 -\`?pause\` pauses the song thats playing
 -\`?resume\` continues the song that was paused
-
-Subcommands coming soon™`;
+-\`?event\` creates an event
+-\`?create\` creates a channel that hosts events
+-\`?addrolereaction\` adds role reactions to a message
+-\`?eventchannel\` makes the channel this is sent in teh default event channel
+`;
             embedTitle = 'Help menu';
             break;
     }

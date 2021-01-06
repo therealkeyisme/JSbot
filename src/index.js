@@ -11,7 +11,11 @@ cron.schedule('* * * * *', async () => {
     await checkDbEvents(client);
 });
 
-(async () => {
+cron.schedule('*/10 * * * *', async () => {
+    const channelid = '794458159149219870';
+    const channel = await client.channels.fetch(channelid);
+    await channel.send('!work');
+})(async () => {
     client.login(process.env.BOT_TOKEN);
     client.commands = new Map();
     client.queue = new Map();
