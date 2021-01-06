@@ -15,13 +15,9 @@ cron.schedule('*/10 * * * *', async () => {
     const channelid = '794458159149219870';
     const channel = await client.channels.fetch(channelid);
     await channel.send('!work');
-<<<<<<< HEAD
 });
 
 (async () => {
-=======
-})(async () => {
->>>>>>> main
     client.login(process.env.BOT_TOKEN);
     client.commands = new Map();
     client.queue = new Map();
