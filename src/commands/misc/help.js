@@ -14,6 +14,6 @@ module.exports = {
             console.log(err);
         }
     },
-    aliases: ['?'],
+    aliases: [],
     description: 'Lists help on all available commands',
 };

@@ -1,5 +1,5 @@
 const tableConfig = require('../../utils/events/tableConfig');
-const { createStream, table } = require('table');
+const { createStream } = require('table');
 const database = require('../../database/database');
 const { commandStatus, eventStatus } = require('../../utils/events/registry');
 
