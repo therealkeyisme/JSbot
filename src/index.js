@@ -15,6 +15,7 @@ cron.schedule('* * * * *', async () => {
     client.login(process.env.BOT_TOKEN);
     client.commands = new Map();
     client.queue = new Map();
+    client.queue = new Map();
     client.cachedMessageReactions = new Map();
     await registerEvents(client, '../../events');
     await registerCommands(client, '../../commands');
