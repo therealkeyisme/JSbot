@@ -1,5 +1,5 @@
-const EventModel = require('../../database/models/eventSchema');
-const PrefModel = require('../../database/models/prefSchema');
+const EventModel = require('../../../database/models/eventSchema');
+const PrefModel = require('../../../database/models/prefSchema');
 
 module.exports = {
     run: async (client, message, args) => {
