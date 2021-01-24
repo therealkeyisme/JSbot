@@ -4,6 +4,9 @@ const Discord = require('discord.js');
 const checkDbEvents = async (client) => {
   try {
     let eventDocument = await EventModel.findOne();
+    if (!eventDocument) {
+      return;
+    }
     let { events } = eventDocument;
     let newEventList = [];
     const today = new Date(Date.now());
