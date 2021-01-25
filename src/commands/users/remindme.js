@@ -35,8 +35,12 @@ module.exports = {
         returnDate.amOrPm = 'pm';
         returnDate.hour -= 12;
       }
+      let returnMinute = returnDate.minute;
+      if (returnMinute === 0) {
+        returnMinute = '00';
+      }
       message.channel.send(
-        `Okay I will remind you on ${returnDate.month}/${returnDate.day}/${returnDate.year} at ${returnDate.hour}:${returnDate.minute} ${returnDate.amOrPm}`,
+        `Okay I will remind you on ${returnDate.month}/${returnDate.day}/${returnDate.year} at ${returnDate.hour}:${returnMinute} ${returnDate.amOrPm}`,
       );
       if (!rmdDocument) {
         let dbModel = new RemindModel({

@@ -38,9 +38,9 @@ const checkDbEvents = async (client) => {
             }
           }
         }
-      }
-      if (datenowdifference > -1800000) {
-        newEventList.push(currentEvent);
+        if (datenowdifference > -1800000) {
+          newEventList.push(currentEvent);
+        }
       }
     }
 
