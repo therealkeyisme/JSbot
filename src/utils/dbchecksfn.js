@@ -1,15 +1,14 @@
 const EventModel = require('../database/models/eventSchema');
+const ReminderModel = require('../database/models/remindSchema');
 const Discord = require('discord.js');
 
 const checkDbEvents = async (client) => {
+  const today = new Date(Date.now());
   try {
     let eventDocument = await EventModel.findOne();
-    if (!eventDocument) {
-      return;
-    }
+    if (!eventDocument) return;
     let { events } = eventDocument;
     let newEventList = [];
-    const today = new Date(Date.now());
 
     for (let i = 0; i < events.length; i++) {
       let currentEvent = events[i];
@@ -40,11 +39,41 @@ const checkDbEvents = async (client) => {
           }
         }
       }
-      newEventList.push(currentEvent);
+      if (datenowdifference > -1800000) {
+        newEventList.push(currentEvent);
+      }
     }
 
     let updatedEventObject = { events: newEventList };
     await eventDocument.updateOne(updatedEventObject);
+  } catch (err) {
+    console.log(err);
+  }
+  try {
+    let rmdDocument = await ReminderModel.findOne();
+    if (!rmdDocument) return;
+    let { reminders } = rmdDocument;
+    let newReminderList = [];
+
+    for (let i = 0; i < reminders.length; i++) {
+      let currentReminder = reminders[i];
+      let { notified, date, guildid, channelid, user, title } = currentReminder;
+      let datenowdifference = date - today;
+      let reminderChannel = await client.channels.fetch(channelid);
+      if (!notified && datenowdifference < 1000) {
+        reminderChannel.send(
+          `Hey <@${user}>, someone told me to remind you to remind me that you need to remember the following: ${title}`,
+        );
+        currentReminder.notified = true;
+      }
+      // console.log(currentReminder);
+      if (!notified || datenowdifference > -1000) {
+        newReminderList.push(currentReminder);
+      }
+    }
+    // console.log(newReminderList);
+    newReminderList = { reminders: newReminderList };
+    await rmdDocument.updateOne(newReminderList);
   } catch (err) {
     console.log(err);
   }
