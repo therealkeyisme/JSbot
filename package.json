@@ -18,7 +18,7 @@
   },
   "homepage": "https://github.com/therealkeyisme/JSbot#readme",
   "dependencies": {
-    "@discordjs/opus": "^0.3.3",
+    "@discordjs/opus": "^0.4.0",
     "ansi-colors": "^4.1.1",
     "discord.js": "^12.5.1",
     "dotenv": "^8.2.0",
