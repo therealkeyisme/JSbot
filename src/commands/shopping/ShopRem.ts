@@ -1,12 +1,13 @@
 import { Message } from "discord.js";
 import DiscordClient from "../../client/client";
 import { DB } from "../../database/database";
-import BaseCommand from "../../utils/structures/BaseCommand";
 import { IShopping } from "../../database/models/ShoppingSchema";
+import BaseCommand from "../../utils/structures/BaseCommand";
+import ShopList from "./ShopList";
 
-export default class ShopAdd extends BaseCommand {
+export default class ShopRem extends BaseCommand {
   constructor() {
-    super("shopadd", "shopping", []);
+    super("shoprem", "shopping", []);
   }
 
   async run(client: DiscordClient, message: Message, args: Array<string>) {
@@ -14,6 +15,7 @@ export default class ShopAdd extends BaseCommand {
     let argString = args.join(" ");
     args = argString.split(",");
     let intakeList: Array<string> = [];
+    let returnList: Array<string> = [];
     for (let i = 0; i < args.length; i++) intakeList.push(args[i].trim());
     let shopDocument: IShopping = await DB.Models.Shopping.findOne({
       guildId: guildid,
@@ -21,19 +23,28 @@ export default class ShopAdd extends BaseCommand {
     if (!shopDocument) {
       shopDocument = new DB.Models.Shopping({
         guildId: guildid,
-        shoppinglist: intakeList,
+        shoppinglist: [],
       });
       await shopDocument.save();
-      message.channel.send("Added your items to the shopping list");
+      message.channel.send(
+        "You had nothing in your shopping list, but I still scrubbed it clean anyways"
+      );
       return;
     }
     let shoppingList = shopDocument.shoppinglist;
-    for (let i = 0; i < intakeList.length; i++) {
-      const element = intakeList[i];
-      if (!shoppingList.includes(element)) shoppingList.push(element);
+    if (shoppingList.length == 0) {
+      message.channel.send(
+        "You had nothing in your shopping list, but I still scrubbed it clean anyways"
+      );
+      return;
     }
-    shopDocument.shoppinglist = shoppingList;
+    for (let i = 0; i < shoppingList.length; i++) {
+      const element = shoppingList[i];
+      if (!intakeList.includes(element)) returnList.push(element);
+    }
+    shopDocument.shoppinglist = returnList;
     await shopDocument.updateOne(shopDocument);
-    message.channel.send("Added your items to the shopping list");
+    console.log(shopDocument);
+    message.channel.send("Removed your items from the shopping list");
   }
 }

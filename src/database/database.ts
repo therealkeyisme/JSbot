@@ -9,7 +9,7 @@ import * as config from "../../config.json";
 
 let mongoURL = config.db;
 
-if (!mongoURL) {
+if (mongoURL) {
   mongoURL = "mongodb://localhost:27017/BabyBotDB";
   console.log("NO URL");
 }

@@ -14,7 +14,7 @@ export class Shopping {
   constructor() {
     const schema = new Schema({
       guildId: { type: String, required: true },
-      shoppinglist: { type: [String] },
+      shoppinglist: [String],
       lastShopList: { type: String },
     });
 

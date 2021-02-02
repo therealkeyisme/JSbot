@@ -21,6 +21,10 @@ export default class Shop extends BaseCommand {
           value: "This removes something from your shopping list",
         },
         {
+          name: "`shopclear`",
+          value: "This clears your shopping list",
+        },
+        {
           name: "`shoplist`",
           value: "Displays your shopping list",
         },
