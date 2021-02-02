@@ -1,21 +1,11 @@
-require('dotenv').config();
-const cron = require('node-cron');
-import { checkDbEvents } from './utils/dbchecksfn';
-const discord = require('discord.js');
-const client = new discord.Client({
-  partials: ['MESSAGE', 'REACTION'],
-});
-const { registerCommands, registerEvents } = require('./utils/events/registry');
-
-cron.schedule('* * * * *', async () => {
-  await checkDbEvents(client);
-});
+import { registerCommands, registerEvents } from "./utils/registry";
+import * as config from "../config.json";
+import DiscordClient from "./client/client";
+const client = new DiscordClient({});
 
 (async () => {
-  client.login(process.env.BOT_TOKEN);
-  client.commands = new Map();
-  client.queue = new Map();
-  client.cachedMessageReactions = new Map();
-  await registerEvents(client, '../../events');
-  await registerCommands(client, '../../commands');
+  client.prefix = config.prefix || client.prefix;
+  await registerCommands(client, "../commands");
+  await registerEvents(client, "../events");
+  await client.login(config.token);
 })();
