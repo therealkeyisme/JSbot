@@ -1,4 +1,4 @@
-import { Schema, model, Document, Model } from 'mongoose';
+import { Schema, model, Document, Model } from "mongoose";
 
 declare interface IPreferences extends Document {
   guildid: string;
@@ -16,7 +16,7 @@ export class Preferences {
       eventChannel: String,
     });
 
-    this._model = model<IPreferences>('guildPrefs', schema);
+    this._model = model<IPreferences>("guildPrefs", schema);
   }
   public get model(): Model<IPreferences> {
     return this._model;

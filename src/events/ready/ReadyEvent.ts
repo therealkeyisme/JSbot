@@ -6,7 +6,7 @@ export default class ReadyEvent extends BaseEvent {
     super("ready");
   }
   async run(client: DiscordClient) {
-    let user: any = client.user;
+    let user = client.user;
     let tag = user.tag;
     console.log(`${tag} has logged in.`);
   }
