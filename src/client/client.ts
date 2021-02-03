@@ -1,7 +1,6 @@
 import { Client, ClientOptions, Collection } from "discord.js";
 import BaseEvent from "../utils/structures/BaseEvent";
 import BaseCommand from "../utils/structures/BaseCommand";
-import { DB } from "../database/database";
 
 export default class DiscordClient extends Client {
   private _commands = new Collection<string, BaseCommand>();
@@ -23,19 +22,14 @@ export default class DiscordClient extends Client {
   get prefix(): string {
     return this._prefix;
   }
-  get queue(): Map<any, any> {
+  get queue() {
     return this._queue;
   }
-  get cachedMessageReactions(): any {
+  get cachedMessageReactions() {
     return this._cachedMessageReactions;
   }
+
   set prefix(prefix: string) {
     this._prefix = prefix;
-  }
-  set queue(queue) {
-    this._queue = queue;
-  }
-  set cachedMessageReactions(cachedMessageReactions) {
-    this._cachedMessageReactions = cachedMessageReactions;
   }
 }

@@ -1,7 +1,7 @@
-import mongoose from 'mongoose';
-import { Schema, model, Document, Model } from 'mongoose';
+import mongoose from "mongoose";
+import { Schema, model, Document, Model } from "mongoose";
 
-declare interface IRoleReactions extends Document {
+export interface IRoleReactions extends Document {
   messageId: string;
   emojiRoleMappings?: any;
 }
@@ -17,7 +17,7 @@ export class RoleReactions {
       emojiRoleMappings: { type: mongoose.Schema.Types.Mixed },
     });
 
-    this._model = model<IRoleReactions>('message', schema);
+    this._model = model<IRoleReactions>("message", schema);
   }
   public get model(): Model<IRoleReactions> {
     return this._model;

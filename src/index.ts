@@ -1,7 +1,9 @@
 import { registerCommands, registerEvents } from "./utils/registry";
-import * as config from "../config.json";
+import config from "../config.json";
 import DiscordClient from "./client/client";
-const client = new DiscordClient({});
+const client = new DiscordClient({
+  partials: ["MESSAGE", "REACTION", "USER", "CHANNEL", "GUILD_MEMBER"],
+});
 
 (async () => {
   client.prefix = config.prefix || client.prefix;

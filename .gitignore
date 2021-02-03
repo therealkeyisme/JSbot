@@ -7,4 +7,5 @@ src/events/reactions/messageReactionAdd.js
 *.lock
 src/commands/events/check.js
 dist/
+build/
 config.json

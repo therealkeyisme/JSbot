@@ -11,7 +11,6 @@ export default class Volume extends BaseCommand {
   async run(client: DiscordClient, message: Message, args: Array<string>) {
     const guildid = message.guild.id;
     const channel = message.member.voice.channel;
-    console.log(args.length);
     if (!channel) return;
     const serverQueue: QueueType = client.queue.get(guildid);
     if (!serverQueue) return;

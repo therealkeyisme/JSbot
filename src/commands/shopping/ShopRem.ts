@@ -44,7 +44,6 @@ export default class ShopRem extends BaseCommand {
     }
     shopDocument.shoppinglist = returnList;
     await shopDocument.updateOne(shopDocument);
-    console.log(shopDocument);
     message.channel.send("Removed your items from the shopping list");
   }
 }
