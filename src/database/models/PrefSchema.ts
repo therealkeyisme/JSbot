@@ -1,6 +1,6 @@
 import { Schema, model, Document, Model } from "mongoose";
 
-declare interface IPreferences extends Document {
+export interface IPreferences extends Document {
   guildid: string;
   eventChannel?: string;
 }
