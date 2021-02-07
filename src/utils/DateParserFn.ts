@@ -1,6 +1,15 @@
 import { Message } from "discord.js";
 import { regExpObj, weekDayList } from "./Constants";
 
+/**
+ * Description of the function/method.
+ *
+ * @remarks This function takes a human input for time and converts it into something the computer can understand
+ * Any remarks you have about the function/method.
+ *
+ * @param {string} inputTime a human input for a time value
+ * @returns {object} an object that contains day month year hours and minutes in computer lang
+ */
 export const DateParser = (inputTime: string) => {
   const currentTime = new Date(Date.now());
   let returnObject: any = {
@@ -57,6 +66,15 @@ export const DateParser = (inputTime: string) => {
   return returnObject;
 };
 
+/**
+ * Description of the function/method.
+ *
+ * @remarks A filter for a collector that checks if there's a date in a string
+ * Any remarks you have about the function/method.
+ *
+ * @param {Message} message a discord.js message that is passed in
+ * @returns {boolean} returns true if theres a date in the message
+ */
 export const eventTimeFilter = (message: Message): boolean => {
   const content = message.content;
   if (

@@ -22,7 +22,10 @@ declare interface IModels {
   Shopping: ShoppingModel;
   Timer: TimerModel;
 }
-
+DB.Models;
+/**
+ * Class Representing Our Database Handler
+ */
 export class DB {
   private static instance: DB;
 
@@ -34,7 +37,7 @@ export class DB {
     this._db = connection;
     this._db.on("open", this.connected);
     this._db.on("error", this.error);
-
+    /** @type {IModels} */
     this._models = {
       Events: new Events().model,
       Preferences: new Preferences().model,
@@ -45,16 +48,23 @@ export class DB {
       //This is where we initialize all models
     };
   }
+
+  /** */
   public static get Models() {
     if (!DB.instance) {
       DB.instance = new DB();
     }
     return DB.instance._models;
   }
+
+  /** logs connection status to  */
   private connected() {
     console.log("Connected to MongoDB");
   }
-
+  /**
+   * Logs any errors with the database to the console
+   * @param err Error code that is logged to the console
+   */
   private error(err: any) {
     console.log("Mongoose has encountered an error", err);
   }

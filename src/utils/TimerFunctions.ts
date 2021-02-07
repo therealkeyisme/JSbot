@@ -3,6 +3,11 @@ import DiscordClient from "../client/client";
 import { DB } from "../database/database";
 import { IEvents } from "../database/models/EventSchema";
 
+/**
+ * Checks every document in the database to see if there is an event within the next 30 minutes
+ *
+ * @param {DiscordClient} client the discord client class
+ */
 export const checkEventDB = async (client: DiscordClient) => {
   const currentTime = new Date(Date.now()).getTime();
   let doc: IEvents;

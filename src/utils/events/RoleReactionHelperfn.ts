@@ -2,12 +2,23 @@ import { MessageReaction, User } from "discord.js";
 import DiscordClient from "../../client/client";
 import { IRoleReactions } from "../../database/models/RoleSchema";
 
+/**
+ * Description of the function/method.
+ *
+ * @remarks Adds role to a user if they react to a role reaction message
+ * Any remarks you have about the function/method.
+ *
+ * @param {DiscordClient} client The discord client class / extension of that class
+ * @param {MessageReaction} reaction The reaction made by the user.
+ * @param {User} user The user who made the reaction
+ * @param {IRoleReactions} rxnDocument A docunent from the database with role reactions
+ */
 export const roleReactionAdd = async (
   client: DiscordClient,
   reaction: MessageReaction,
   user: User,
   rxnDocument: IRoleReactions
-) => {
+): Promise<void> => {
   if (rxnDocument) {
     const id = reaction.message.id;
     client.cachedMessageReactions.set(id, rxnDocument.emojiRoleMappings);
@@ -24,12 +35,23 @@ export const roleReactionAdd = async (
   }
 };
 
+/**
+ * Description of the function/method.
+ *
+ * @remarks Removes a role form user if they react to a role reaction message
+ * Any remarks you have about the function/method.
+ *
+ * @param {DiscordClient} client The discord client class / extension of that class
+ * @param {MessageReaction} reaction The reaction made by the user.
+ * @param {User} user The user who made the reaction
+ * @param {IRoleReactions} rxnDocument A docunent from the database with role reactions
+ */
 export const roleReactionRemove = async (
   client: DiscordClient,
   reaction: MessageReaction,
   user: User,
   rxnDocument: IRoleReactions
-) => {
+): Promise<void> => {
   const id = reaction.message.id;
   if (rxnDocument) {
     client.cachedMessageReactions.set(id, rxnDocument.emojiRoleMappings);

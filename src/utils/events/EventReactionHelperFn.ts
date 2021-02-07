@@ -1,7 +1,17 @@
 import { MessageEmbed, MessageReaction, User } from "discord.js";
-import DiscordClient from "../../client/client";
 import { IEvents, IUser } from "../../database/models/EventSchema";
 
+/**
+ * Description of the function/method.
+ *
+ * @remarks
+ * Any remarks you have about the function/method.
+ *
+ * @param {MessageReaction} reaction The reaction from the user.
+ * @param {User} user The user who reacted.
+ * @param {IEvents} eventDocument A document from the database that contains an event
+ * @returns Description of what the function/method returns
+ */
 export const eventReaction = async (
   reaction: MessageReaction,
   user: User,

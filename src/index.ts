@@ -3,6 +3,7 @@ import config from "../config.json";
 import DiscordClient from "./client/client";
 import cron from "node-cron";
 import { checkEventDB } from "./utils/TimerFunctions";
+import { DB } from "./database/database";
 
 const client = new DiscordClient({
   partials: ["MESSAGE", "REACTION", "USER", "CHANNEL", "GUILD_MEMBER"],
