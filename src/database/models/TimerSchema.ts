@@ -1,13 +1,10 @@
-import { Schema, model, Document, Model } from 'mongoose';
+import { Schema, model, Document, Model } from "mongoose";
 
-declare interface ITimer extends Document {
-  timers: [
-    {
-      channelid: string;
-      date: any;
-      user: string;
-    },
-  ];
+export interface ITimer extends Document {
+  channelid: string;
+  date: Date;
+  user: string;
+  notified: boolean;
 }
 
 export interface TimerModel extends Model<ITimer> {}
@@ -17,16 +14,13 @@ export class Timer {
 
   constructor() {
     const schema = new Schema({
-      timers: [
-        {
-          channelid: String,
-          date: Date,
-          user: String,
-        },
-      ],
+      channelid: String,
+      date: Date,
+      user: String,
+      notified: Boolean,
     });
 
-    this._model = model<ITimer>('timerlist', schema);
+    this._model = model<ITimer>("timerlist", schema);
   }
 
   public get model(): Model<ITimer> {

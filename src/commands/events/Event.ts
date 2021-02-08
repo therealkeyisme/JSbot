@@ -49,7 +49,7 @@ export default class Events extends BaseCommand {
     const eventDescriptionContent = eventDescription.first().content;
     sendEmbed.title = "When do you want your event to start (PST)?";
     sendEmbed.description =
-      "Please format it like the following\n```Friday at 9pm\nNow\nTomorrow at 18:00\nYYYY-MM-DD 7:00pm```";
+      "Please format it like the following\n```Friday at 9pm\nNow\nTomorrow at 18:00\nMM-DD-YYYY 7:00pm```";
     await authorDM.send(sendEmbed);
     const eventTimeIntake = await authorDM.awaitMessages(eventTimeFilter, {
       max: 1,
@@ -60,35 +60,18 @@ export default class Events extends BaseCommand {
     authorDM.send(
       "Okay we have all the information we need. Check out the events channel!"
     );
+
     let eventDateObject = DateParser(eventTimeIntakeContent);
-    console.log(eventDateObject);
-    const currentTime = new Date(Date.now());
-    const currentDay = currentTime.getDay();
-    let eventTime = currentTime;
-    eventTime.setFullYear(eventDateObject.year);
-    eventTime.setMonth(eventDateObject.month);
-    eventTime.setDate(eventDateObject.day);
-    eventTime.setHours(eventDateObject.hours);
-    eventTime.setMinutes(eventDateObject.minutes);
-    let embedMinutes: string;
-    if (
-      eventDateObject.minutes == NaN ||
-      eventDateObject.minutes == 0 ||
-      eventDateObject.minutes == undefined
-    ) {
-      embedMinutes = "00";
-    } else {
-      embedMinutes = `${eventDateObject.minutes}`;
-    }
+    console.log(eventDateObject.compileDate().getTime());
+    let eventTime = eventDateObject.compileDate();
+    let embedPresentDate = eventDateObject.eventPresentDate();
     sendEmbed = new MessageEmbed({
       title: eventTitleContent,
       description: eventDescriptionContent,
       fields: [
         {
           name: "Time",
-          value: `${eventDateObject.month + 1}/${eventDateObject.day}/${
-            eventDateObject.year
-          } ${eventDateObject.hours}:${embedMinutes}`,
+          value: embedPresentDate,
         },
         { name: "✅Accepted", value: "-", inline: true },
         { name: "🛑Declined", value: "-", inline: true },
@@ -106,16 +89,18 @@ export default class Events extends BaseCommand {
       let eventChannel: any = guild.channels.cache.get(prefModel.eventChannel);
       sentMessage = await eventChannel.send(sendEmbed);
     }
+
     let eventObject = new DB.Models.Events({
       guildid: guildid,
       title: eventTitleContent,
       date: eventTime,
       description: eventDescriptionContent,
       messageid: sentMessage.id,
-      accepted: [{}],
-      declined: [{}],
-      tentative: [{}],
+      accepted: [],
+      declined: [],
+      tentative: [],
     });
+
     eventObject.save();
     sentMessage.react("✅");
     sentMessage.react("🛑");

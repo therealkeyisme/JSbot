@@ -1,24 +1,23 @@
 import { Message } from "discord.js";
 import { regExpObj, weekDayList } from "./Constants";
+import ParsedDate from "./structures/ParsedDate";
 
 /**
- * Description of the function/method.
- *
- * @remarks This function takes a human input for time and converts it into something the computer can understand
- * Any remarks you have about the function/method.
+ * This function takes a human input for time and converts it into something the computer can understand
  *
  * @param {string} inputTime a human input for a time value
- * @returns {object} an object that contains day month year hours and minutes in computer lang
+ * @returns {ParsedDate} an object that contains day month year hours and minutes in computer lang
  */
-export const DateParser = (inputTime: string) => {
+export const DateParser = (inputTime: string): ParsedDate => {
   const currentTime = new Date(Date.now());
-  let returnObject: any = {
-    day: currentTime.getDate(),
-    month: currentTime.getMonth(),
-    year: currentTime.getFullYear(),
-    hours: currentTime.getHours(),
-    minutes: 0,
-  };
+  let returnObject = new ParsedDate(
+    currentTime.getDate(),
+    currentTime.getMonth(),
+    currentTime.getFullYear(),
+    currentTime.getHours(),
+    0
+  );
+
   const allWeekDays = regExpObj.allWeekDays.exec(inputTime);
   const date = regExpObj.date.exec(inputTime);
   const today = regExpObj.today.exec(inputTime);
@@ -37,7 +36,8 @@ export const DateParser = (inputTime: string) => {
   }
   if (date) {
     returnObject.day = parseInt(date[3]);
-    returnObject.month = parseInt(date[2]) - 1;
+    returnObject.month = parseInt(date[1]) - 1;
+    console.log(returnObject.month);
     returnObject.year = parseInt(date[4]);
   }
   if (today) {
@@ -51,13 +51,14 @@ export const DateParser = (inputTime: string) => {
     returnObject.year = currentTime.getFullYear();
   }
   if (am) {
-    returnObject.hours = parseInt(am[1]);
+    if (parseInt(am[1]) == 12) returnObject.hours = 0;
+    else returnObject.hours = parseInt(am[1]);
+
+    if (am[2] != "") returnObject.minutes = parseInt(am[2]);
   }
   if (pm) {
     returnObject.hours = parseInt(pm[1]) + 12;
-    if (pm[2] != "") {
-      returnObject.minutes = parseInt(pm[2]);
-    }
+    if (pm[2] != "") returnObject.minutes = parseInt(pm[2]);
   }
   if (time24hr) {
     returnObject.hours = parseInt(time24hr[1]);

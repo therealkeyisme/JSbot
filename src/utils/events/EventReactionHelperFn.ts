@@ -85,7 +85,7 @@ export const eventReaction = async (
           name: "Time",
           value: `${
             eventDocument.date.getMonth() + 1
-          }/${eventDocument.date.getDate()}/${eventDocument.date.getFullYear()} ${eventDocument.date.getHours()}:${returnMinutes()}`,
+          }/${eventDocument.date.getDate()}/${eventDocument.date.getFullYear()} at ${eventDocument.date.getHours()}:${returnMinutes()}`,
           inline: false,
         },
         { name: "✅Accepted", value: `${acceptedNicknames}`, inline: true },

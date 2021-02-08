@@ -1,10 +1,10 @@
 import { Schema, model, Document, Model } from "mongoose";
 
-declare interface IReminders extends Document {
+export interface IReminders extends Document {
   guildid: string;
   channelid: string;
   title: string;
-  date: any;
+  date: Date;
   user: string;
   notified: boolean;
 }

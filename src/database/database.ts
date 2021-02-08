@@ -22,7 +22,7 @@ declare interface IModels {
   Shopping: ShoppingModel;
   Timer: TimerModel;
 }
-DB.Models;
+
 /**
  * Class Representing Our Database Handler
  */

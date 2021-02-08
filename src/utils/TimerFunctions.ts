@@ -1,7 +1,10 @@
-import { MessageEmbed } from "discord.js";
+import { MessageEmbed, TextChannel } from "discord.js";
 import DiscordClient from "../client/client";
 import { DB } from "../database/database";
 import { IEvents } from "../database/models/EventSchema";
+import { IReminders } from "../database/models/RemindSchema";
+import { ITimer } from "../database/models/TimerSchema";
+const currentTime = new Date(Date.now()).getTime();
 
 /**
  * Checks every document in the database to see if there is an event within the next 30 minutes
@@ -9,7 +12,6 @@ import { IEvents } from "../database/models/EventSchema";
  * @param {DiscordClient} client the discord client class
  */
 export const checkEventDB = async (client: DiscordClient) => {
-  const currentTime = new Date(Date.now()).getTime();
   let doc: IEvents;
   for await (doc of DB.Models.Events.find()) {
     const eventDate = doc.date.getTime();
@@ -33,6 +35,40 @@ export const checkEventDB = async (client: DiscordClient) => {
       }
     }
     doc.accepted = accepted;
-    doc.update(doc);
+    console.log(doc);
+    console.log(doc.accepted);
+    await doc.updateOne(doc);
+  }
+};
+
+export const checkRmdDB = async (client: DiscordClient) => {
+  let doc: IReminders;
+  for await (doc of DB.Models.Reminders.find()) {
+    const rmdDate = doc.date.getTime();
+    let dateNowDifference = rmdDate - currentTime;
+    if (dateNowDifference <= 120000 && !doc.notified) {
+      const user = await client.users.fetch(doc.user);
+      const channel: any = await client.channels.fetch(doc.channelid);
+      channel.send(
+        `Hey <@${user.id}> you told me to remind you to ${doc.title}`
+      );
+      doc.notified = true;
+      await doc.updateOne(doc);
+    }
+  }
+};
+
+export const checkTimerDB = async (client: DiscordClient) => {
+  let doc: ITimer;
+  for await (doc of DB.Models.Timer.find()) {
+    const timerDate = doc.date.getTime();
+    let dateNowDifference = timerDate - currentTime;
+    if (dateNowDifference <= 120000 && !doc.notified) {
+      const user = await client.users.fetch(doc.user);
+      const channel: any = await client.channels.fetch(doc.channelid);
+      channel.send(`Hey <@${user.id}> your timer is going off`);
+      doc.notified = true;
+      await doc.updateOne(doc);
+    }
   }
 };
