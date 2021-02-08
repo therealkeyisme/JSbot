@@ -9,7 +9,7 @@ const currentTime = new Date(Date.now()).getTime();
 /**
  * Checks every document in the database to see if there is an event within the next 30 minutes
  *
- * @param {DiscordClient} client the discord client class
+ * @param {DiscordClient} client The Discord Client Class
  */
 export const checkEventDB = async (client: DiscordClient) => {
   let doc: IEvents;
@@ -41,6 +41,10 @@ export const checkEventDB = async (client: DiscordClient) => {
   }
 };
 
+/**
+ * Checks every document in the database to see if there is a reminder within 1 minute.
+ * @param {DiscordClient} client The Discord Client Class
+ */
 export const checkRmdDB = async (client: DiscordClient) => {
   let doc: IReminders;
   for await (doc of DB.Models.Reminders.find()) {
@@ -58,6 +62,10 @@ export const checkRmdDB = async (client: DiscordClient) => {
   }
 };
 
+/**
+ * Checks every document in the database to see if there is a timer within 1 minute.
+ * @param {DiscordClient} client The Discord Client Class
+ */
 export const checkTimerDB = async (client: DiscordClient) => {
   let doc: ITimer;
   for await (doc of DB.Models.Timer.find()) {

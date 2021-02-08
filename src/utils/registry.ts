@@ -2,6 +2,11 @@ import path from "path";
 import { promises as fs } from "fs";
 import DiscordClient from "../client/client";
 
+/**
+ * Goes through all of the files in the "commands" folder and registers the commands there
+ * @param client The Discord Client Class
+ * @param dir The current directory of the function (initially nothing)
+ */
 export async function registerCommands(
   client: DiscordClient,
   dir: string = ""
@@ -22,6 +27,11 @@ export async function registerCommands(
   }
 }
 
+/**
+ * Goes through all of the files in the "events" folder and registers the events there
+ * @param client The Discord Client Class
+ * @param dir The current directory of the function (initially nothing)
+ */
 export async function registerEvents(client: DiscordClient, dir: string = "") {
   const filePath = path.join(__dirname, dir);
   const files = await fs.readdir(filePath);
