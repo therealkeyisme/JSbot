@@ -1,4 +1,5 @@
-export const regExpObj = {
+/** @type {Object} */
+export const regExpObj: any = {
   allWeekDays: /\b((m|M)o(n(day)?)?|(t|T)u(e(s(day)?)?)?|(w|W)e(d(nesday)?)?|(t|T)h(u(r(s(day)?)?)?)?|(f|F)r(i(day)?)?|(s|S)a(t(urday)?)?|(s|S)u(n(day)?)?)\b/,
   monday: /\b((mon)(day)?)\b/,
   tuesday: /\b((tues)(day)?)\b/,
@@ -17,7 +18,8 @@ export const regExpObj = {
   today: /\b(today)\b/,
 };
 
-export const weekDayList = [
+/** @type {Array<string>} */
+export const weekDayList: Array<string> = [
   "sunday",
   "monday",
   "tuesday",

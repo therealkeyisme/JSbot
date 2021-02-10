@@ -68,9 +68,7 @@ export const DateParser = (inputTime: string): ParsedDate => {
 };
 
 /**
- * Description of the function/method.
- *
- * @remarks A filter for a collector that checks if there's a date in a string
+ * A filter for a collector that checks if there's a date in a string
  * Any remarks you have about the function/method.
  *
  * @param {Message} message a discord.js message that is passed in

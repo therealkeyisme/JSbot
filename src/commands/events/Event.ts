@@ -7,11 +7,30 @@ import { DateParser, eventTimeFilter } from "../../utils/DateParserFn";
 import { DB } from "../../database/database";
 import { IPreferences } from "../../database/models/PrefSchema";
 
+/**
+ * Initializes a new Event object and saves it to the database
+ *
+ * @export Events
+ * @class Events
+ * @extends {BaseCommand}
+ */
 export default class Events extends BaseCommand {
+  /**
+   * Creates an instance of Events.
+   * @memberof Events
+   */
   constructor() {
     super("event", "events", []);
   }
 
+  /**
+   * Function that creates a new event and saves it to database
+   *
+   * @param {DiscordClient} client A DiscordClient instance
+   * @param {Message} message The message that called the command
+   * @param {Array<string>} args Everything after the command call
+   * @memberof Events
+   */
   async run(client: DiscordClient, message: Message, args: Array<string>) {
     const titleDescriptionFilter = (message: Message): boolean =>
       message == message;

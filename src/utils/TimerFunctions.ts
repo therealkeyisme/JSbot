@@ -4,6 +4,8 @@ import { DB } from "../database/database";
 import { IEvents } from "../database/models/EventSchema";
 import { IReminders } from "../database/models/RemindSchema";
 import { ITimer } from "../database/models/TimerSchema";
+
+/** @type {Date} */
 const currentTime = new Date(Date.now()).getTime();
 
 /**
@@ -45,6 +47,7 @@ export const checkEventDB = async (client: DiscordClient) => {
  * Checks every document in the database to see if there is a reminder within 1 minute.
  * @param {DiscordClient} client The Discord Client Class
  */
+
 export const checkRmdDB = async (client: DiscordClient) => {
   let doc: IReminders;
   for await (doc of DB.Models.Reminders.find()) {

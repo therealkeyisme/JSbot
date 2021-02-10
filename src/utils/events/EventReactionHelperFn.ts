@@ -2,10 +2,7 @@ import { MessageEmbed, MessageReaction, User } from "discord.js";
 import { IEvents, IUser } from "../../database/models/EventSchema";
 
 /**
- * Description of the function/method.
- *
- * @remarks
- * Any remarks you have about the function/method.
+ * Handles what happens when someone reacts on an event.
  *
  * @param {MessageReaction} reaction The reaction from the user.
  * @param {User} user The user who reacted.
@@ -61,7 +58,13 @@ export const eventReaction = async (
         break;
     }
 
-    const createNicknameList = (newArray: Array<IUser>) => {
+    /**
+     * Creates a list of nicknames for accepted, declined, and tentative.
+     *
+     * @param {Array<IUser>} newArray Array of IUser objects for accepted, declined, or tentative
+     * @return {String} A list of nicknames for accepted, declined, or tentative turned into a string.
+     */
+    const createNicknameList = (newArray: Array<IUser>): string => {
       let nicknameArray = [];
       for (let i = 0; i < newArray.length; i++)
         if (newArray[i].nickname) nicknameArray.push(newArray[i].nickname);
@@ -72,9 +75,14 @@ export const eventReaction = async (
     const declinedNicknames = createNicknameList(declined);
     const tentativeNicknames = createNicknameList(tentative);
 
-    let returnMinutes = () => {
+    /**
+     * Translates minutes == 0 to minutes = "00"
+     *
+     * @return {string} returns minutes
+     */
+    let returnMinutes = (): string => {
       if (eventDocument.date.getMinutes() == 0) return "00";
-      else return eventDocument.date.getMinutes();
+      else return `${eventDocument.date.getMinutes()}`;
     };
 
     let sendEmbed = new MessageEmbed({

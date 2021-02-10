@@ -3,11 +3,30 @@ import DiscordClient from "../../client/client";
 import { DB } from "../../database/database";
 import BaseCommand from "../../utils/structures/BaseCommand";
 
+/**
+ * Creates an event channel
+ *
+ * @export CreateEC
+ * @class CreateEC
+ * @extends {BaseCommand}
+ */
 export default class CreateEC extends BaseCommand {
+  /**
+   * Creates an instance of CreateEC.
+   * @memberof CreateEC
+   */
   constructor() {
     super("createec", "events", ["createeventchannel"]);
   }
 
+  /**
+   * Function that creates a discord channel and then adds it to the guild's preferences
+   *
+   * @param {DiscordClient} client A DiscordClient instance
+   * @param {Message} message The message that called the command
+   * @param {Array<string>} args Everything after the command call
+   * @memberof CreateEC
+   */
   async run(client: DiscordClient, message: Message, args: Array<string>) {
     const guildid = message.guild.id;
     const newChannel = await message.guild.channels.create("baby-bot-events", {
