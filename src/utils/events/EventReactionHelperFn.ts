@@ -30,33 +30,37 @@ export const eventReaction = async (
     let accepted = eventDocument.accepted;
     let declined = eventDocument.declined;
     let tentative = eventDocument.tentative;
+    console.log(accepted.findIndex(isInEventDocumentList));
     let acceptedUserIndex = accepted.findIndex(isInEventDocumentList);
     let declinedUserIndex = declined.findIndex(isInEventDocumentList);
     let tentativeUserIndex = tentative.findIndex(isInEventDocumentList);
 
     switch (emojiName) {
       case "✅":
-        if (acceptedUserIndex > 0) break;
-        if (declinedUserIndex > 0) declined.splice(declinedUserIndex, 1);
-        if (tentativeUserIndex > 0) tentative.splice(tentativeUserIndex, 1);
+        if (acceptedUserIndex >= 0) break;
+        if (declinedUserIndex >= 0) declined.splice(declinedUserIndex, 1);
+        if (tentativeUserIndex >= 0) tentative.splice(tentativeUserIndex, 1);
         userObject.notified = false;
         accepted.push(userObject);
         break;
       case "🛑":
-        if (declinedUserIndex > 0) break;
-        if (acceptedUserIndex > 0) accepted.splice(acceptedUserIndex, 1);
-        if (tentativeUserIndex > 0) tentative.splice(tentativeUserIndex, 1);
+        if (declinedUserIndex >= 0) break;
+        if (acceptedUserIndex >= 0) accepted.splice(acceptedUserIndex, 1);
+        if (tentativeUserIndex >= 0) tentative.splice(tentativeUserIndex, 1);
         declined.push(userObject);
         break;
       case "❔":
-        if (tentativeUserIndex > 0) break;
-        if (acceptedUserIndex > 0) accepted.splice(acceptedUserIndex, 1);
-        if (declinedUserIndex > 0) declined.splice(declinedUserIndex, 1);
+        if (tentativeUserIndex >= 0) break;
+        if (acceptedUserIndex >= 0) accepted.splice(acceptedUserIndex, 1);
+        if (declinedUserIndex >= 0) declined.splice(declinedUserIndex, 1);
         tentative.push(userObject);
         break;
       default:
         break;
     }
+    console.log(tentative);
+    console.log(accepted);
+    console.log(declined);
 
     /**
      * Creates a list of nicknames for accepted, declined, and tentative.
