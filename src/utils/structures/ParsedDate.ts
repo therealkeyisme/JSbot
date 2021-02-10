@@ -87,7 +87,6 @@ export default class ParsedDate {
    */
   public eventPresentDate(): string {
     let returnMinutes: number | string;
-    console.log(this._minutes);
     if (
       this._minutes == NaN ||
       this._minutes == 0 ||

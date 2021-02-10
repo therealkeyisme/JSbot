@@ -15,7 +15,8 @@ const currentTime = new Date(Date.now()).getTime();
  */
 export const checkEventDB = async (client: DiscordClient) => {
   let doc: IEvents;
-  for await (doc of DB.Models.Events.find()) {
+  let dbItems = await DB.Models.Events.find();
+  for (doc of dbItems) {
     const eventDate = doc.date.getTime();
     let accepted = doc.accepted;
     let dateNowDifference = eventDate - currentTime;
@@ -37,8 +38,6 @@ export const checkEventDB = async (client: DiscordClient) => {
       }
     }
     doc.accepted = accepted;
-    console.log(doc);
-    console.log(doc.accepted);
     await doc.updateOne(doc);
   }
 };
@@ -50,7 +49,8 @@ export const checkEventDB = async (client: DiscordClient) => {
 
 export const checkRmdDB = async (client: DiscordClient) => {
   let doc: IReminders;
-  for await (doc of DB.Models.Reminders.find()) {
+  let dbItems = await DB.Models.Reminders.find();
+  for (doc of dbItems) {
     const rmdDate = doc.date.getTime();
     let dateNowDifference = rmdDate - currentTime;
     if (dateNowDifference <= 120000 && !doc.notified) {
@@ -71,7 +71,8 @@ export const checkRmdDB = async (client: DiscordClient) => {
  */
 export const checkTimerDB = async (client: DiscordClient) => {
   let doc: ITimer;
-  for await (doc of DB.Models.Timer.find()) {
+  let dbItems = await DB.Models.Timer.find();
+  for (doc of dbItems) {
     const timerDate = doc.date.getTime();
     let dateNowDifference = timerDate - currentTime;
     if (dateNowDifference <= 120000 && !doc.notified) {

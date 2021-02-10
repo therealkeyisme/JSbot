@@ -111,7 +111,6 @@ export const eventReaction = async (
     eventDocument.accepted = accepted;
     eventDocument.declined = declined;
     eventDocument.tentative = tentative;
-    console.log(eventDocument);
     await eventDocument.updateOne(eventDocument);
     await reaction.users.remove(user.id);
   }

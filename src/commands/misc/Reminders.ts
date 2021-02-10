@@ -31,7 +31,6 @@ export default class Reminders extends BaseCommand {
   async run(client: DiscordClient, message: Message, args: Array<string>) {
     const content = message.content;
     const argCSV = args.join(" ").split(", ");
-    console.log(argCSV);
     const reminderDateObject = DateParser(argCSV[0]);
     if (!eventTimeFilter(message)) {
       message.channel.send("uhhhh what date do you want?");

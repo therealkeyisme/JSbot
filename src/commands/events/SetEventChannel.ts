@@ -28,7 +28,6 @@ export default class SetEventChannel extends BaseCommand {
     const guild = message.guild;
     const guildid = guild.id;
     const returnMessage = "I have set this channel as your default channel";
-    console.log(message.guild.roles);
     let prefDocument = await DB.Models.Preferences.findOne({
       guildid: guildid,
     });
@@ -42,7 +41,6 @@ export default class SetEventChannel extends BaseCommand {
       return;
     }
     prefDocument.eventChannel = channel.id;
-    console.log(prefDocument);
     prefDocument.updateOne(prefDocument);
     channel.send(returnMessage);
   }

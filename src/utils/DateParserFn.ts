@@ -25,7 +25,6 @@ export const DateParser = (inputTime: string): ParsedDate => {
   const am = regExpObj.am.exec(inputTime);
   const pm = regExpObj.pm.exec(inputTime);
   const time24hr = regExpObj.time24hr.exec(inputTime);
-  console.log(pm);
   if (allWeekDays) {
     let weekDayNumber = weekDayList.findIndex(
       (element) => element == allWeekDays[1]
@@ -37,7 +36,6 @@ export const DateParser = (inputTime: string): ParsedDate => {
   if (date) {
     returnObject.day = parseInt(date[3]);
     returnObject.month = parseInt(date[1]) - 1;
-    console.log(returnObject.month);
     returnObject.year = parseInt(date[4]);
   }
   if (today) {
@@ -57,7 +55,8 @@ export const DateParser = (inputTime: string): ParsedDate => {
     if (am[2] != "") returnObject.minutes = parseInt(am[2]);
   }
   if (pm) {
-    returnObject.hours = parseInt(pm[1]) + 12;
+    if (parseInt(pm[1]) == 12) returnObject.hours = 12;
+    else returnObject.hours = parseInt(pm[1]) + 12;
     if (pm[2] != "") returnObject.minutes = parseInt(pm[2]);
   }
   if (time24hr) {

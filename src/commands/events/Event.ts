@@ -81,7 +81,6 @@ export default class Events extends BaseCommand {
     );
 
     let eventDateObject = DateParser(eventTimeIntakeContent);
-    console.log(eventDateObject.compileDate().getTime());
     let eventTime = eventDateObject.compileDate();
     let embedPresentDate = eventDateObject.eventPresentDate();
     sendEmbed = new MessageEmbed({
