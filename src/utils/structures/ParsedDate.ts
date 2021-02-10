@@ -1,3 +1,9 @@
+/**
+ * Class that contains date object blueprint
+ *
+ * @export ParsedDate
+ * @class ParsedDate
+ */
 export default class ParsedDate {
   private _day: number;
   private _month: number;
@@ -60,7 +66,9 @@ export default class ParsedDate {
 
   /**
    * Compiles the date object into something JavaScript can understand
-   * @returns A date that has been compiled
+   *
+   * @return {Date}  A date that has been compiled
+   * @memberof ParsedDate
    */
   public compileDate(): Date {
     let parsedDate = new Date(Date.now());
@@ -75,10 +83,10 @@ export default class ParsedDate {
   /**
    * Creates a string so events can display a string
    * @returns {string} A string that is in month, day, year, hours, and minutes
+   * @memberof ParsedDate
    */
   public eventPresentDate(): string {
     let returnMinutes: number | string;
-    console.log(this._minutes);
     if (
       this._minutes == NaN ||
       this._minutes == 0 ||

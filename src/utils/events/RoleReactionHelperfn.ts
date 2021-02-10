@@ -3,10 +3,7 @@ import DiscordClient from "../../client/client";
 import { IRoleReactions } from "../../database/models/RoleSchema";
 
 /**
- * Description of the function/method.
- *
- * @remarks Adds role to a user if they react to a role reaction message
- * Any remarks you have about the function/method.
+ * Adds role to a user if they react to a role reaction message.
  *
  * @param {DiscordClient} client The discord client class / extension of that class
  * @param {MessageReaction} reaction The reaction made by the user.
@@ -36,15 +33,12 @@ export const roleReactionAdd = async (
 };
 
 /**
- * Description of the function/method.
+ * Removes a role form user if they react to a role reaction message
  *
- * @remarks Removes a role form user if they react to a role reaction message
- * Any remarks you have about the function/method.
- *
- * @param {DiscordClient} client The discord client class / extension of that class
+ * @param {DiscordClient} client The discord client class / extension of that class.
  * @param {MessageReaction} reaction The reaction made by the user.
- * @param {User} user The user who made the reaction
- * @param {IRoleReactions} rxnDocument A docunent from the database with role reactions
+ * @param {User} user The user who made the reaction.
+ * @param {IRoleReactions} rxnDocument A docunent from the database with role reactions.
  */
 export const roleReactionRemove = async (
   client: DiscordClient,

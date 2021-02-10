@@ -3,11 +3,30 @@ import DiscordClient from "../../client/client";
 import { DB } from "../../database/database";
 import BaseCommand from "../../utils/structures/BaseCommand";
 
+/**
+ * Turns an existing message into a role reaction message
+ *
+ * @export RoleReaction
+ * @class RoleReaction
+ * @extends {BaseCommand}
+ */
 export default class RoleReaction extends BaseCommand {
+  /**
+   * Creates an instance of RoleReaction.
+   * @memberof RoleReaction
+   */
   constructor() {
     super("rolereaction", "admin", []);
   }
 
+  /**
+   * Function that adds role reaction events to an existing message
+   *
+   * @param {DiscordClient} client A DiscordClient instance
+   * @param {Message} message The message that called the command
+   * @param {Array<string>} args Everything after the command call
+   * @memberof RoleReaction
+   */
   async run(client: DiscordClient, message: Message, args: Array<string>) {
     const msgCollectorFiler = (
       newMsg: Message,

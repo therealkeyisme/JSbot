@@ -3,17 +3,17 @@ import config from "../config.json";
 import DiscordClient from "./client/client";
 import cron from "node-cron";
 import { checkEventDB, checkRmdDB, checkTimerDB } from "./utils/TimerFunctions";
-import { DB } from "./database/database";
 
+/** @type {DiscordClient} */
 const client = new DiscordClient({
   partials: ["MESSAGE", "REACTION", "USER", "CHANNEL", "GUILD_MEMBER"],
 });
 
 cron.schedule("30 * * * * *", async () => {
   // console.log("Running every minute");
-  checkEventDB(client);
-  checkRmdDB(client);
-  checkTimerDB(client);
+  await checkEventDB(client);
+  await checkRmdDB(client);
+  await checkTimerDB(client);
 });
 
 (async () => {

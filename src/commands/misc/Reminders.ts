@@ -5,15 +5,32 @@ import { IReminders } from "../../database/models/RemindSchema";
 import { DateParser, eventTimeFilter } from "../../utils/DateParserFn";
 import BaseCommand from "../../utils/structures/BaseCommand";
 
-export default class Events extends BaseCommand {
+/**
+ * Reminder Command
+ *
+ * @export Reminders
+ * @class Reminders
+ * @extends {BaseCommand}
+ */
+export default class Reminders extends BaseCommand {
+  /**
+   * Creates an instance of Reminders.
+   * @memberof Reminders
+   */
   constructor() {
     super("remind", "misc", ["remindme"]);
   }
-  //! ?remindme 01/29/2021 9am hey do that thing
+  /**
+   * Function that adds a reminder to the database
+   *
+   * @param {DiscordClient} client A DiscordClient instance
+   * @param {Message} message The message that called the command
+   * @param {Array<string>} args Everything after the command call
+   * @memberof Reminders
+   */
   async run(client: DiscordClient, message: Message, args: Array<string>) {
     const content = message.content;
     const argCSV = args.join(" ").split(", ");
-    console.log(argCSV);
     const reminderDateObject = DateParser(argCSV[0]);
     if (!eventTimeFilter(message)) {
       message.channel.send("uhhhh what date do you want?");
