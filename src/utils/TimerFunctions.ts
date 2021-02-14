@@ -14,6 +14,7 @@ const currentTime = new Date(Date.now()).getTime();
  * @param {DiscordClient} client The Discord Client Class
  */
 export const checkEventDB = async (client: DiscordClient) => {
+  console.log("Checking db");
   let doc: IEvents;
   let dbItems = await DB.Models.Events.find();
   for (doc of dbItems) {
@@ -48,6 +49,7 @@ export const checkEventDB = async (client: DiscordClient) => {
  */
 
 export const checkRmdDB = async (client: DiscordClient) => {
+  console.log("checking rmd db");
   let doc: IReminders;
   let dbItems = await DB.Models.Reminders.find();
   for (doc of dbItems) {
@@ -70,6 +72,7 @@ export const checkRmdDB = async (client: DiscordClient) => {
  * @param {DiscordClient} client The Discord Client Class
  */
 export const checkTimerDB = async (client: DiscordClient) => {
+  console.log("checking timer db");
   let doc: ITimer;
   let dbItems = await DB.Models.Timer.find();
   for (doc of dbItems) {
@@ -83,4 +86,17 @@ export const checkTimerDB = async (client: DiscordClient) => {
       await doc.updateOne(doc);
     }
   }
+};
+
+export /**
+ * Handles the setInterval in index.ts. This makes sure that checkTimerDB, checkRmdDB and checkEventsDB all run every minute.
+ *
+ * @param {DiscordClient} client
+ * @return {*}  {Promise<void>}
+ */
+const runTimers = async (client: DiscordClient): Promise<void> => {
+  await checkEventDB(client);
+  await checkRmdDB(client);
+  await checkTimerDB(client);
+  return;
 };
