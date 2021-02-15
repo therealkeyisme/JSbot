@@ -1,12 +1,9 @@
-import { MessageEmbed, TextChannel } from "discord.js";
+import { Message, MessageEmbed, TextChannel } from "discord.js";
 import DiscordClient from "../client/client";
 import { DB } from "../database/database";
 import { IEvents } from "../database/models/EventSchema";
 import { IReminders } from "../database/models/RemindSchema";
 import { ITimer } from "../database/models/TimerSchema";
-
-/** @type {Date} */
-const currentTime = new Date(Date.now()).getTime();
 
 /**
  * Checks every document in the database to see if there is an event within the next 30 minutes
@@ -14,14 +11,17 @@ const currentTime = new Date(Date.now()).getTime();
  * @param {DiscordClient} client The Discord Client Class
  */
 export const checkEventDB = async (client: DiscordClient) => {
+  const currentTime = new Date(Date.now());
   console.log("Checking db");
   let doc: IEvents;
   let dbItems = await DB.Models.Events.find();
   for (doc of dbItems) {
-    const eventDate = doc.date.getTime();
+    const eventDate = doc.date;
     let accepted = doc.accepted;
-    let dateNowDifference = eventDate - currentTime;
-    if (dateNowDifference <= 1800000 && accepted.length > 0) {
+    if (
+      eventDate.getTime() - currentTime.getTime() <= 1800000 &&
+      accepted.length > 0
+    ) {
       for (let i = 0; i < accepted.length; i++) {
         const user = await client.users.fetch(accepted[i].userid);
         const guild = await client.guilds.fetch(doc.guildid);
@@ -49,13 +49,13 @@ export const checkEventDB = async (client: DiscordClient) => {
  */
 
 export const checkRmdDB = async (client: DiscordClient) => {
+  const currentTime = new Date(Date.now());
   console.log("checking rmd db");
   let doc: IReminders;
   let dbItems = await DB.Models.Reminders.find();
   for (doc of dbItems) {
-    const rmdDate = doc.date.getTime();
-    let dateNowDifference = rmdDate - currentTime;
-    if (dateNowDifference <= 120000 && !doc.notified) {
+    const rmdDate = doc.date;
+    if (rmdDate.getTime() - currentTime.getTime() <= 120000 && !doc.notified) {
       const user = await client.users.fetch(doc.user);
       const channel: any = await client.channels.fetch(doc.channelid);
       channel.send(
@@ -72,13 +72,16 @@ export const checkRmdDB = async (client: DiscordClient) => {
  * @param {DiscordClient} client The Discord Client Class
  */
 export const checkTimerDB = async (client: DiscordClient) => {
+  const currentTime = new Date(Date.now());
   console.log("checking timer db");
   let doc: ITimer;
   let dbItems = await DB.Models.Timer.find();
   for (doc of dbItems) {
-    const timerDate = doc.date.getTime();
-    let dateNowDifference = timerDate - currentTime;
-    if (dateNowDifference <= 120000 && !doc.notified) {
+    const timerDate = doc.date;
+    if (
+      timerDate.getTime() - currentTime.getTime() <= 120000 &&
+      !doc.notified
+    ) {
       const user = await client.users.fetch(doc.user);
       const channel: any = await client.channels.fetch(doc.channelid);
       channel.send(`Hey <@${user.id}> your timer is going off`);
@@ -91,8 +94,7 @@ export const checkTimerDB = async (client: DiscordClient) => {
 export /**
  * Handles the setInterval in index.ts. This makes sure that checkTimerDB, checkRmdDB and checkEventsDB all run every minute.
  *
- * @param {DiscordClient} client
- * @return {*}  {Promise<void>}
+ * @param {DiscordClient} client The Discord Client Class
  */
 const runTimers = async (client: DiscordClient): Promise<void> => {
   await checkEventDB(client);
