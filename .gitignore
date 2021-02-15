@@ -8,4 +8,5 @@ src/events/reactions/messageReactionAdd.js
 src/commands/events/check.js
 dist/
 build/
-config.json
+*.json
+.dockerconfig/
