@@ -9,14 +9,9 @@ import ParsedDate from "./structures/ParsedDate";
  * @returns {ParsedDate} an object that contains day month year hours and minutes in computer lang
  */
 export const DateParser = (inputTime: string): ParsedDate => {
-  const currentTime = new Date(Date.now());
-  let returnObject = new ParsedDate(
-    currentTime.getDate(),
-    currentTime.getMonth(),
-    currentTime.getFullYear(),
-    currentTime.getHours(),
-    0
-  );
+  let currentTime = new Date(Date.now());
+  let currentTimeOffset = currentTime.getTimezoneOffset() 
+  let returnObject = new ParsedDate();
 
   const allWeekDays = regExpObj.allWeekDays.exec(inputTime);
   const date = regExpObj.date.exec(inputTime);

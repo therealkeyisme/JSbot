@@ -1,5 +1,6 @@
 import { MessageEmbed, MessageReaction, User } from "discord.js";
 import { IEvents, IUser } from "../../database/models/EventSchema";
+import ParsedDate from "../structures/ParsedDate";
 
 /**
  * Handles what happens when someone reacts on an event.
@@ -78,16 +79,9 @@ export const eventReaction = async (
     const acceptedNicknames = createNicknameList(accepted);
     const declinedNicknames = createNicknameList(declined);
     const tentativeNicknames = createNicknameList(tentative);
-
-    /**
-     * Translates minutes == 0 to minutes = "00"
-     *
-     * @return {string} returns minutes
-     */
-    let returnMinutes = (): string => {
-      if (eventDocument.date.getMinutes() == 0) return "00";
-      else return `${eventDocument.date.getMinutes()}`;
-    };
+    let eventDate = (new ParsedDate())
+    eventDate.time = eventDocument.date
+    const parsedDate = eventDate.eventPresentDate()
 
     let sendEmbed = new MessageEmbed({
       title: eventDocument.title,
@@ -95,9 +89,7 @@ export const eventReaction = async (
       fields: [
         {
           name: "Time",
-          value: `${
-            eventDocument.date.getMonth() + 1
-          }/${eventDocument.date.getDate()}/${eventDocument.date.getFullYear()} at ${eventDocument.date.getHours()}:${returnMinutes()}`,
+          value: parsedDate,
           inline: false,
         },
         { name: "✅Accepted", value: `${acceptedNicknames}`, inline: true },

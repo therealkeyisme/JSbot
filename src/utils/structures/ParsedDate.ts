@@ -10,6 +10,7 @@ export default class ParsedDate {
   private _year: number;
   private _hours: number;
   private _minutes: number;
+  private _time: number;
 
   /**
    * Creates a class that has dates that have been parsed. These date objects can also be compiled into complete dates.
@@ -19,19 +20,6 @@ export default class ParsedDate {
    * @param hours the hours
    * @param minutes the minutes
    */
-  constructor(
-    day: number,
-    month: number,
-    year: number,
-    hours: number,
-    minutes: number
-  ) {
-    this._day = day;
-    this._month = month;
-    this._year = year;
-    this._hours = hours;
-    this._minutes = minutes;
-  }
 
   get day() {
     return this._day;
@@ -48,6 +36,9 @@ export default class ParsedDate {
   get minutes() {
     return this._minutes;
   }
+  get time() {
+    return this._time
+  }
   set day(day) {
     this._day = day;
   }
@@ -63,6 +54,16 @@ export default class ParsedDate {
   set minutes(minutes) {
     this._minutes = minutes;
   }
+  set time (time) {
+    let date = new Date(time)
+    this._minutes = date.getMinutes();
+    this._hours = date.getHours()
+    this._day = date.getDate();
+    this._month = date.getMonth();
+    this._year = date.getFullYear()
+    this._time = time;
+    return
+  }
 
   /**
    * Compiles the date object into something JavaScript can understand
@@ -70,14 +71,17 @@ export default class ParsedDate {
    * @return {Date}  A date that has been compiled
    * @memberof ParsedDate
    */
-  public compileDate(): Date {
-    let parsedDate = new Date(Date.now());
+  public compileDate(): number {
+    let parsedDate = new Date;
     parsedDate.setFullYear(this._year);
     parsedDate.setMonth(this._month);
     parsedDate.setDate(this._day);
     parsedDate.setHours(this._hours);
     parsedDate.setMinutes(this._minutes);
-    return parsedDate;
+    let parsedTimezone = parsedDate.getTimezoneOffset() * 60000;
+    let utc = parsedDate.getTime() + parsedTimezone;
+    let pst = utc + (480 * 60000);
+    return pst;
   }
 
   /**

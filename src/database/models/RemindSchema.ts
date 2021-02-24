@@ -4,7 +4,7 @@ export interface IReminders extends Document {
   guildid: string;
   channelid: string;
   title: string;
-  date: Date;
+  date: number;
   user: string;
   notified: boolean;
 }
@@ -19,7 +19,7 @@ export class Reminders {
       guildid: String,
       channelid: String,
       title: String,
-      date: Date,
+      date: Number,
       user: String,
       notified: Boolean,
     });

@@ -6,7 +6,7 @@ import { Schema, model, Document, Model } from "mongoose";
 export interface IEvents extends Document {
   guildid: string;
   title: string;
-  date: Date;
+  date: number;
   description: string;
   messageid: string;
   accepted: Array<IUser>;
@@ -34,7 +34,7 @@ export class Events {
     const schema = new Schema({
       guildid: String,
       title: String,
-      date: Date,
+      date: Number,
       description: String,
       messageid: String,
       accepted: [
