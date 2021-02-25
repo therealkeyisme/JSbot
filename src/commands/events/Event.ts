@@ -21,6 +21,8 @@ export default class Events extends BaseCommand {
    */
   constructor() {
     super("event", "events", []);
+    super.helpStatement =
+      "`?event` starts a dm with the bot to create an event";
   }
 
   /**
@@ -39,10 +41,10 @@ export default class Events extends BaseCommand {
     const channel = message.channel;
     const author = message.author;
     if (!message.guild) return;
-    if (!message.member.hasPermission(["ADMINISTRATOR"])) {
-      channel.send("You don't have permission to use that command");
-      return;
-    }
+    // if (!message.member.hasPermission(["ADMINISTRATOR"])) {
+    //   channel.send("You don't have permission to use that command");
+    //   return;
+    // }
     const authorDM = await author.createDM();
     let sendEmbed = new MessageEmbed({
       title: "Please enter the event title",
@@ -107,6 +109,7 @@ export default class Events extends BaseCommand {
       let eventChannel: any = guild.channels.cache.get(prefModel.eventChannel);
       sentMessage = await eventChannel.send(sendEmbed);
     }
+    console.log(`The event time is ${eventTime}`);
 
     let eventObject = new DB.Models.Events({
       guildid: guildid,

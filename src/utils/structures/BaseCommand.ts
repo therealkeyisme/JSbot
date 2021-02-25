@@ -9,6 +9,7 @@ import DiscordClient from "../../client/client";
  * @class BaseCommand
  */
 export default abstract class BaseCommand {
+  private _helpStatement: string;
   /**
    * Creates an instance of BaseCommand.
    * @param {string} name Name of command.
@@ -31,6 +32,12 @@ export default abstract class BaseCommand {
   getAliases(): Array<string> {
     return this.aliases;
   }
+  get helpStatement(): string {
+    return this._helpStatement;
+  }
+  set helpStatement(helpStatement: string) {
+    this._helpStatement = helpStatement;
+  }
 
   /**
    * Default template for command functions.
@@ -46,4 +53,8 @@ export default abstract class BaseCommand {
     message: Message,
     args: Array<string> | null
   ): Promise<void>;
+
+  /**
+   * getHelpCommand
+   */
 }

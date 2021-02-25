@@ -17,6 +17,7 @@ export default class CreateEC extends BaseCommand {
    */
   constructor() {
     super("createec", "events", ["createeventchannel"]);
+    super.helpStatement = "`?createec` creates an event channel";
   }
 
   /**

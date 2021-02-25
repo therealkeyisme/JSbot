@@ -1,14 +1,14 @@
 import { registerCommands, registerEvents } from "./utils/registry";
 import config from "../config.json";
 import DiscordClient from "./client/client";
-import { runTimers } from "./utils/TimerFunctions";
+import { checkDBTimers } from "./utils/NewTimerFunctions";
 
 /** @type {DiscordClient} */
 const client = new DiscordClient({
   partials: ["MESSAGE", "REACTION", "USER", "CHANNEL", "GUILD_MEMBER"],
 });
 
-setInterval(runTimers, 60000, client);
+setInterval(checkDBTimers, 30000, client);
 
 (async () => {
   client.prefix = config.prefix || client.prefix;

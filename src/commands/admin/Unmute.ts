@@ -16,6 +16,8 @@ export default class Unmute extends BaseCommand {
    */
   constructor() {
     super("unmute", "admin", []);
+    super.helpStatement =
+      "`?unmute <userid>` Removes the help role from a user.";
   }
 
   /**

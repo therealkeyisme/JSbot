@@ -15,6 +15,8 @@ export default class Mute extends BaseCommand {
    */
   constructor() {
     super("mute", "admin", []);
+    super.helpStatement =
+      "`?mute <userid>` Adds the mutes role to a specific user.";
   }
 
   /**

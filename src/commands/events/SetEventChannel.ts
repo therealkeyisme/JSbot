@@ -13,6 +13,7 @@ import { DB } from "../../database/database";
 export default class SetEventChannel extends BaseCommand {
   constructor() {
     super("setec", "events", ["seteventchannel"]);
+    super.helpStatement = "`?setec` Sets up the event channel";
   }
 
   /**

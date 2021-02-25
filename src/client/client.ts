@@ -1,4 +1,4 @@
-import { Client, ClientOptions, Collection } from "discord.js";
+import { Client, ClientOptions, Collection, MessageEmbed } from "discord.js";
 import BaseEvent from "../utils/structures/BaseEvent";
 import BaseCommand from "../utils/structures/BaseCommand";
 
@@ -15,7 +15,6 @@ export default class DiscordClient extends Client {
   private _prefix: string = "!";
   private _queue = new Map();
   private _cachedMessageReactions = new Map();
-
   /**
    * Creates an instance of DiscordClient.
    * @param {ClientOptions} [options]
@@ -24,7 +23,6 @@ export default class DiscordClient extends Client {
   constructor(options?: ClientOptions) {
     super(options);
   }
-
   /**
    * Gets the commands in the DiscordClient instance.
    * @readonly
@@ -69,12 +67,32 @@ export default class DiscordClient extends Client {
   get cachedMessageReactions() {
     return this._cachedMessageReactions;
   }
-
   /**
    * Changes the prefix of the DiscordClient instance.
    * @memberof DiscordClient
    */
   set prefix(prefix: string) {
     this._prefix = prefix;
+  }
+  /**
+   * Get's the help statements from each command that has one and returns it.
+   *
+   * @return {MessageEmbed} Returns a message embed to be sent
+   * @memberof DiscordClient
+   */
+  public helpList() {
+    let sendEmbed = new MessageEmbed({
+      title: "Help list",
+    });
+    let description: string = "";
+    this.commands.forEach((command) => {
+      if (command.helpStatement != undefined) {
+        description = description + "\n" + command.helpStatement;
+        console.log(command.getName());
+      }
+    });
+    sendEmbed.setDescription(description);
+    console.log(description);
+    return sendEmbed;
   }
 }

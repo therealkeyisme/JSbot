@@ -19,6 +19,8 @@ export default class Reminders extends BaseCommand {
    */
   constructor() {
     super("remind", "misc", ["remindme"]);
+    super.helpStatement =
+      "`?remind <time & date>, <description>` reminds you of something at the time provided";
   }
   /**
    * Function that adds a reminder to the database

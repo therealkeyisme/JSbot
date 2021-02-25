@@ -17,6 +17,8 @@ export default class RoleReaction extends BaseCommand {
    */
   constructor() {
     super("rolereaction", "admin", []);
+    super.helpStatement =
+      "`?rolereaction <messageid>` sets a message as a role reaction message";
   }
 
   /**
