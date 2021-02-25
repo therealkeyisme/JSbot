@@ -5,9 +5,8 @@ import BaseCommand from "../../utils/structures/BaseCommand";
 export default class Shop extends BaseCommand {
   constructor() {
     super("shop", "shopping", []);
-    this.helpStatement(
-      "`?shop` Gives the help commands for the `?shop...` commands"
-    );
+    super.helpStatement =
+      "`?shop` Gives the help commands for the `?shop...` commands";
   }
 
   async run(client: DiscordClient, message: Message, args: Array<string>) {
